@@ -1,22 +1,24 @@
 import React,{useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 
 
-export default function Welcome() {
+export default function Welcome({navigation}) {
     const pressHandler= () => {
-        console.log("hello");
+        navigation.navigate('Login');
     }
     return (
       <View style={styles.container}>
         <LinearGradient
-          colors={['#797979','#6E6E6E', '#404040' ]}
-          style={styles.linearGradient}
+        //   colors={['#9c9c9c','#6E6E6E', '#404040' ]}
+            colors={['#009ffd','#2a2a72']}
+            style={styles.linearGradient}
         >
                     
             <View style={styles.content}>
                 <View style={styles.logo}>
+                    <Image style={{width: 75, height: 75, marginRight: 0}} source={require('../assets/images/Mendit-Logo.png')}/> 
                     <Text style={styles.logoText}> Mendit </Text>
                 </View>
 
@@ -60,14 +62,21 @@ export default function Welcome() {
     },
     content:{
         marginBottom: 100,
+        
     },
     logo:{
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
         marginBottom: 35,
+        width: '100%',
+        justifyContent: 'flex-start'
     },
     logoText:{
         color: 'white',
-        fontSize: 35,
+        fontSize: 37,
         fontFamily: 'inter-bold',
+        margin: 0,
     },
     mainText:{
         color: 'white',
