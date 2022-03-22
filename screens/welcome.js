@@ -5,9 +5,9 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 
 export default function Welcome({navigation}) {
-    const pressHandler= () => {
-        navigation.navigate('Login');
-    }
+    // const pressHandler= () => {
+    //     navigation.navigate('Login');
+    // }
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -27,10 +27,10 @@ export default function Welcome({navigation}) {
                 </View>
 
                 <View style={styles.buttons}>
-                    <TouchableOpacity style={styles.button1} onPress={pressHandler}>
+                    <TouchableOpacity style={styles.button1} onPress={()=>navigation.navigate('Login')}>
                         <Text style = {styles.buttonText}>Log In</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button2} onPress={pressHandler}>
+                    <TouchableOpacity style={styles.button2} onPress={()=> navigation.navigate('SignUpAs')}>
                         <Text style = {styles.buttonText}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>

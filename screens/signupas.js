@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, Modal,  TextInput, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Modal, Image, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 
-export default function Login({navigation}){
+export default function SignUpAs({navigation}){
     
     const [modalVisible, setModalVisible] = useState(true);
-    const [number, onChangeNumber] = React.useState(null);
+
 
     return (
         <View style={styles.container}>
@@ -32,20 +32,17 @@ export default function Login({navigation}){
                     
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Log In</Text>
-                            <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Mobile Number</Text>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={onChangeNumber}
-                                value={number}
-                                keyboardType="numeric"
-                            />
+                            <View style = {styles.textAndIcon}>
+                                <Text style={styles.modalText}>Sign Up As</Text>
+                                <Image style={{width: 30, height: 30, marginTop: 42, marginLeft: 20}} source={require('../assets/images/info_icon.png')}/>
+                            </View>
+
                             <View style={styles.buttons}>
                                 <TouchableOpacity style={styles.button1} >
-                                    <Text style = {styles.buttonText}>Send OTP</Text>
+                                    <Text style = {styles.buttonText}>User</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.button2} onPress={()=> navigation.navigate('SignUpAs')}>
-                                    <Text style = {styles.button2Text}>Sign Up</Text>
+                                <TouchableOpacity style={styles.button1}>
+                                    <Text style = {styles.buttonText}>Handyman</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -64,6 +61,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         fontFamily: 'inter-regular',
+    },
+    textAndIcon:{
+        flex: 1,
+        flexDirection:'row',
     },
     linearGradient: {
         alignItems: 'flex-start',
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     },
     buttons:{
         flex: 1,
-        justifyContent:'space-around',
+        justifyContent:'center',
         alignItems: 'center',
     },
     button1: {
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 10,
         width: '100%',
+        marginBottom: 40,
 
     },
     buttonText:{
