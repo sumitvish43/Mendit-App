@@ -1,11 +1,35 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, Modal, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Modal, Image, TouchableOpacity, Alert} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
+
 
 export default function SignUpAs({navigation}){
     
     const [modalVisible, setModalVisible] = useState(true);
-
+    const showAlert = () =>{
+        Alert.alert(
+            "",
+            'Tap on "User" to avail services.\n\nTap on "Handyman" to provide services.',
+            [
+              {
+                text: "Ok",
+                style: "cancel",
+              },
+            ],
+            {
+              cancelable: true,
+              
+            
+            }
+          );
+          
+    }
+    // useEffect({
+    //     return(){
+    //         setModalVisible(!modalVisible);
+    //     }
+    // })
+    
 
     return (
         <View style={styles.container}>
@@ -15,7 +39,7 @@ export default function SignUpAs({navigation}){
             style={styles.linearGradient}
             >
                 <View style={styles.logo}>
-                        <Image style={{width: 75, height: 75}} source={require('../assets/images/Mendit-Logo.png')}/> 
+                        <Image style={{width: 90, height: 90}} source={require('../assets/images/Mendit-Logo.png')}/> 
                         <Text style={styles.logoText}> Mendit </Text>
                         
                 </View>
@@ -25,8 +49,7 @@ export default function SignUpAs({navigation}){
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose = {()=>{
-                        setModalVisible(!modalVisible);
-                        navigation.goBack();
+                        navigation.navigate("Login");
                     }}
                 >
                     
@@ -34,7 +57,9 @@ export default function SignUpAs({navigation}){
                         <View style={styles.modalView}>
                             <View style = {styles.textAndIcon}>
                                 <Text style={styles.modalText}>Sign Up As</Text>
-                                <Image style={{width: 30, height: 30, marginTop: 42, marginLeft: 20}} source={require('../assets/images/info_icon.png')}/>
+                                <TouchableOpacity onPress={showAlert}>
+                                    <Image style={{width: 30, height: 30, marginTop: 44, marginLeft: 20}} source={require('../assets/images/info_icon.png')}/>
+                                </TouchableOpacity>
                             </View>
 
                             <View style={styles.buttons}>
@@ -84,12 +109,15 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
         padding: 20,
-        
+        flexDirection: 'column',
+        // alignItems: 'flex-start',
+        justifyContent: 'flex-start',
     },
     modalText:{
         marginTop: 40,
         fontFamily: 'inter-bold',
         fontSize: 23,
+        marginBottom: 0,
     },
     logo:{
         flex: 1,
@@ -102,20 +130,14 @@ const styles = StyleSheet.create({
         fontSize: 37,
         fontFamily: 'inter-bold',
         margin: 0,
+        right: 10,
+        top: 14
     },
-    input: {
-        height: 40,
-        borderWidth: 1,
-        borderTopColor: 'white',
-        borderLeftColor:'white',
-        borderRightColor: 'white',
-        borderBottomColor: '#a6a6a6',
-        padding: 10,
-    },
+
     buttons:{
-        flex: 1,
-        justifyContent:'center',
-        alignItems: 'center',
+        marginBottom:250,    
+        // height: '100%',
+
     },
     button1: {
         backgroundColor: '#007AFF',
@@ -123,8 +145,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 10,
         width: '100%',
-        marginBottom: 40,
-
+        marginTop: 20,
     },
     buttonText:{
         color: 'white',
@@ -132,6 +153,7 @@ const styles = StyleSheet.create({
     },
     button2: {
         backgroundColor: 'white',
+        
     },
     button2Text: {
         color: '#007AFF',           

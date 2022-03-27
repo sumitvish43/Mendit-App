@@ -1,11 +1,31 @@
 import React,{useState} from 'react';
 import { StyleSheet, Text, View, Modal,  TextInput, Image, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
+import {useFocusEffect } from '@react-navigation/native';
 
-export default function Login({navigation}){
+export default function Login({navigation,route}){
+    
     
     const [modalVisible, setModalVisible] = useState(true);
     const [number, onChangeNumber] = React.useState(null);
+
+    const pressHandler = () =>{
+        setModalVisible(true);
+        navigation.navigate('SignUpAs');
+    }
+    useFocusEffect(
+        React.useCallback(() => {
+        //   alert('Screen was focused');
+            setModalVisible(true);
+          // Do something when the screen is focused
+        //   setModalVisible(!modalVisible);
+          return () => {
+            setModalVisible(!modalVisible);
+            // Do something when the screen is unfocused
+            // Useful for cleanup functions
+          };
+        }, [navigation])
+      );
 
     return (
         <View style={styles.container}>
@@ -15,7 +35,7 @@ export default function Login({navigation}){
             style={styles.linearGradient}
             >
                 <View style={styles.logo}>
-                        <Image style={{width: 75, height: 75}} source={require('../assets/images/Mendit-Logo.png')}/> 
+                        <Image style={{width: 90, height: 90}} source={require('../assets/images/Mendit-Logo.png')}/> 
                         <Text style={styles.logoText}> Mendit </Text>
                         
                 </View>
@@ -25,8 +45,13 @@ export default function Login({navigation}){
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose = {()=>{
-                        setModalVisible(!modalVisible);
-                        navigation.goBack();
+                        // if(route.params.modalVisible != null){
+                        //     setModalVisible(route.params.modalVisible);
+                        // }else{
+                        //     setModalVisible(!modalVisible);
+                        // }
+                        // setModalVisible(!modalVisible);
+                        navigation.navigate('Welcome');
                     }}
                 >
                     
@@ -44,7 +69,7 @@ export default function Login({navigation}){
                                 <TouchableOpacity style={styles.button1} >
                                     <Text style = {styles.buttonText}>Send OTP</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.button2} onPress={()=> navigation.navigate('SignUpAs')}>
+                                <TouchableOpacity style={styles.button2} onPress={pressHandler}>
                                     <Text style = {styles.button2Text}>Sign Up</Text>
                                 </TouchableOpacity>
                             </View>
@@ -101,6 +126,8 @@ const styles = StyleSheet.create({
         fontSize: 37,
         fontFamily: 'inter-bold',
         margin: 0,
+        right: 10,
+        top: 14
     },
     input: {
         height: 40,

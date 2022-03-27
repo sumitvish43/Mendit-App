@@ -18,7 +18,7 @@ export default function Welcome({navigation}) {
                     
             <View style={styles.content}>
                 <View style={styles.logo}>
-                    <Image style={{width: 75, height: 75, marginRight: 0}} source={require('../assets/images/Mendit-Logo.png')}/> 
+                    <Image style={{width: 90, height: 90, top: 12}} source={require('../assets/images/Mendit-Logo.png')}/> 
                     <Text style={styles.logoText}> Mendit </Text>
                 </View>
 
@@ -70,13 +70,15 @@ export default function Welcome({navigation}) {
         alignItems: 'flex-end',
         marginBottom: 35,
         width: '100%',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        right: 14,
     },
     logoText:{
         color: 'white',
         fontSize: 37,
         fontFamily: 'inter-bold',
         margin: 0,
+        right: 14
     },
     mainText:{
         color: 'white',
