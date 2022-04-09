@@ -4,13 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Welcome from "../screens/welcome";
 import Login from "../screens/login";
 import SignUpAs from "../screens/signupas";
+import SignUpUser from "../screens/signupuser";
+import Verify from "../screens/verify";
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='Welcome'>
+            <Stack.Navigator initialRouteName='Verify'>
                 <Stack.Screen 
                     name='Welcome' 
                     component={Welcome}
@@ -25,6 +27,16 @@ export default function Navigator() {
                     name='SignUpAs' 
                     component={SignUpAs}
                     options={{title: 'SignUpAs',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='SignUpUser' 
+                    component={SignUpUser}
+                    options={{title: 'SignUpUser',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='Verify' 
+                    component={Verify}
+                    options={{title: 'Verify',headerShown: false}}
                 />
             </Stack.Navigator>
     

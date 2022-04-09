@@ -1,18 +1,18 @@
 import React,{useState} from 'react';
-import { Text, View, Modal,  TextInput, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Modal,  TextInput, Image, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import {useFocusEffect } from '@react-navigation/native';
 import {modalStyles} from '../styles/modalStyles';
 
-export default function Login({navigation}){
+export default function Verify({navigation}){
         
     const [modalVisible, setModalVisible] = useState(true);
     const [number, onChangeNumber] = React.useState(null);
 
-    const pressHandler = () =>{
-        setModalVisible(true);
-        navigation.navigate('SignUpAs');
-    }
+    // const pressHandler = () =>{
+    //     setModalVisible(true);
+    //     navigation.navigate('SignUpAs');
+    // }
     useFocusEffect(
         React.useCallback(() => {
             setModalVisible(true);
@@ -46,22 +46,22 @@ export default function Login({navigation}){
                     
                     <View style={modalStyles.centeredView}>
                         <View style={modalStyles.modalView}>
-                            <Text style={modalStyles.modalText}>Log In</Text>
-                            <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Mobile Number</Text>
+                            <Text style={modalStyles.modalText}>OTP</Text>
+                            <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Enter the OTP received on your registered mobile number</Text>
                             <TextInput
                                 style={modalStyles.input}
                                 onChangeText={onChangeNumber}
                                 value={number}
                                 keyboardType="numeric"
-                                maxLength={10}
+                                maxLength={6}
                             />
                             <View style={modalStyles.buttons}>
                                 <TouchableOpacity style={modalStyles.button1} >
-                                    <Text style = {modalStyles.buttonText} onPress={()=>navigation.navigate('Verify')}>Send OTP</Text>
+                                    <Text style = {modalStyles.buttonText}>Submit</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={modalStyles.button2} onPress={pressHandler}>
-                                    <Text style = {modalStyles.button2Text}>Sign Up</Text>
-                                </TouchableOpacity>
+                                {/* <TouchableOpacity style={styles.button2} onPress={pressHandler}>
+                                    <Text style = {styles.button2Text}>Sign Up</Text>
+                                </TouchableOpacity> */}
                             </View>
                         </View>
                     </View>
@@ -122,10 +122,13 @@ export default function Login({navigation}){
 //     input: {
 //         height: 40,
 //         borderWidth: 1,
+//         marginTop: 20,
 //         borderTopColor: 'white',
 //         borderLeftColor:'white',
 //         borderRightColor: 'white',
 //         borderBottomColor: '#a6a6a6',
+//         fontSize: 25,
+//         fontFamily:'inter-regular'
 //     },
 //     buttons:{
 //         flex: 1,
@@ -144,11 +147,11 @@ export default function Login({navigation}){
 //         color: 'white',
 //         textAlign: 'center',
 //     },
-//     button2: {
-//         backgroundColor: 'white',
-//     },
-//     button2Text: {
-//         color: '#007AFF',           
-//     }
+//     // button2: {
+//     //     backgroundColor: 'white',
+//     // },
+//     // button2Text: {
+//     //     color: '#007AFF',           
+//     // }
 // });
 
