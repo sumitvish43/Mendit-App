@@ -6,13 +6,14 @@ import Login from "../screens/login";
 import SignUpAs from "../screens/signupas";
 import SignUpUser from "../screens/signupuser";
 import Verify from "../screens/verify";
+import Profile from "../screens/Profile";
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='Verify'>
+            <Stack.Navigator initialRouteName='Profile'>
                 <Stack.Screen 
                     name='Welcome' 
                     component={Welcome}
@@ -37,6 +38,20 @@ export default function Navigator() {
                     name='Verify' 
                     component={Verify}
                     options={{title: 'Verify',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='Profile' 
+                    component={Profile}
+                    options={
+                        {
+                            title: 'My Profile',
+                            headerShown: true,
+                            headerStyle: {
+                                backgroundColor: '#009ffd',
+                            },
+                            headerTintColor: '#fff',
+                        }
+                    }
                 />
             </Stack.Navigator>
     

@@ -9,7 +9,8 @@ const getFonts = ()=>{
   return Font.loadAsync({
     'inter-black': require('./assets/fonts/Inter-Black.ttf'),
     'inter-bold': require('./assets/fonts/Inter-Bold.ttf'),
-    'inter-regular': require('./assets/fonts/Inter-Regular.ttf')
+    'inter-regular': require('./assets/fonts/Inter-Regular.ttf'),
+    'inter-light': require('./assets/fonts/Inter-Light.ttf')
   });
 }
 
