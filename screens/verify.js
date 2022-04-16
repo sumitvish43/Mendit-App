@@ -3,16 +3,17 @@ import { StyleSheet, Text, View, Modal,  TextInput, Image, TouchableOpacity} fro
 import {LinearGradient} from 'expo-linear-gradient';
 import {useFocusEffect } from '@react-navigation/native';
 import {modalStyles} from '../styles/modalStyles';
-
-export default function Verify({navigation}){
+import { app } from '../firebase';
+import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+const auth = getAuth();
+export default function Verify({navigation,route}){
         
     const [modalVisible, setModalVisible] = useState(true);
-    const [number, onChangeNumber] = React.useState(null);
-
-    // const pressHandler = () =>{
-    //     setModalVisible(true);
-    //     navigation.navigate('SignUpAs');
-    // }
+    const [message, showMessage] = React.useState();
+    const attemptInvisibleVerification = false;
+    const verificationId = route.params.verifyId;
+    console.log(verificationId);
+    const [verificationCode, setVerificationCode] = React.useState();
     useFocusEffect(
         React.useCallback(() => {
             setModalVisible(true);
@@ -25,7 +26,6 @@ export default function Verify({navigation}){
     return (
         <View style={modalStyles.container}>
             <LinearGradient
-            // colors={['#9c9c9c','#6E6E6E', '#404040' ]}
             colors={['#009ffd','#2a2a72']}
             style={modalStyles.linearGradient}
             >
@@ -50,18 +50,51 @@ export default function Verify({navigation}){
                             <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Enter the OTP received on your registered mobile number</Text>
                             <TextInput
                                 style={modalStyles.input}
-                                onChangeText={onChangeNumber}
-                                value={number}
+                                onChangeText={setVerificationCode}
                                 keyboardType="numeric"
+                                
                                 maxLength={6}
+                                placeholder="123456"
                             />
                             <View style={modalStyles.buttons}>
-                                <TouchableOpacity style={modalStyles.button1} >
+                                <TouchableOpacity style={modalStyles.button1} 
+                                    onPress={async () => {
+                                        try {
+                                            const credential = PhoneAuthProvider.credential(
+                                            verificationId,
+                                            verificationCode
+                                            );
+                                            await signInWithCredential(auth, credential);
+                                            navigation.navigate('Home');
+                                        } catch (err) {
+                                            showMessage({ text: `Enter correct OTP`, color: 'red' });
+                                        }
+                                    }}
+                                >
                                     <Text style = {modalStyles.buttonText}>Submit</Text>
                                 </TouchableOpacity>
-                                {/* <TouchableOpacity style={styles.button2} onPress={pressHandler}>
-                                    <Text style = {styles.button2Text}>Sign Up</Text>
-                                </TouchableOpacity> */}
+                                {message ? (
+                                <TouchableOpacity
+                                style={[
+                                    StyleSheet.absoluteFill,
+                                    { backgroundColor: 0xffffffee, justifyContent: 'center' },
+                                ]}
+                                onPress={() => showMessage(undefined)}>
+                                <Text
+                                    style={{
+                                    color: message.color || 'blue',
+                                    fontSize: 17,
+                                    textAlign: 'center',
+                                    margin: 20,
+                                    }}>
+                                    {message.text}
+                                </Text>
+                                </TouchableOpacity>
+                            ) : (
+                                undefined
+                            )}
+                            {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+
                             </View>
                         </View>
                     </View>

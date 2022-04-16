@@ -7,13 +7,14 @@ import SignUpAs from "../screens/signupas";
 import SignUpUser from "../screens/signupuser";
 import Verify from "../screens/verify";
 import Profile from "../screens/Profile";
+import Home from "../screens/Home";
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='Profile'>
+            <Stack.Navigator initialRouteName='Welcome'>
                 <Stack.Screen 
                     name='Welcome' 
                     component={Welcome}
@@ -38,6 +39,11 @@ export default function Navigator() {
                     name='Verify' 
                     component={Verify}
                     options={{title: 'Verify',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='Home' 
+                    component={Home}
+                    options={{title: 'Home',headerShown: false}}
                 />
                 <Stack.Screen 
                     name='Profile' 
