@@ -5,8 +5,21 @@ import {useFocusEffect } from '@react-navigation/native';
 import {modalStyles} from '../styles/modalStyles';
 
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
-import { app } from '../firebase';
+import { db, app } from '../firebase';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+
+// import { LogBox } from 'react-native';
+// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+// LogBox.ignoreAllLogs();
+function checkIfRegistered(num){
+    
+    // var flag = 0;
+    console.log("inside");
+    
+    // var usersRef = db.collection("User");
+    // var query = usersRef.where("phone_no","==",num);
+
+}
 
 
 const auth = getAuth();
@@ -17,37 +30,52 @@ export default function Login({navigation}){
     const recaptchaVerifier = React.useRef(null);
     const [number, onChangeNumber] = React.useState(null);
     const [verificationId, setVerificationId] = useState(null);
-
-
-
     const firebaseConfig = app ? app.options : undefined;
+
 
 
     const pressHandler = () =>{
         setModalVisible(true);
+        // readASingleDocument();
         navigation.navigate('SignUpAs');
     }
 
     const gotoVerify =      
     async () => {
+        if(number){
 
-      try {
-          const phoneProvider = new PhoneAuthProvider(auth);
-          const verificationId = await phoneProvider.verifyPhoneNumber(
-          number,
-          recaptchaVerifier.current
-          );
-          setVerificationId(verificationId);
-          console.log('Verification code has been sent to your phone.');
-          console.log(verificationId);
-          navigation.navigate('Verify',{verifyId: verificationId});
-      
-      } catch (err) {
-          showMessage({ text: `Error: ${err.message}`, color: 'red' });
-          console.log(`Error: ${err.message}`);
-      }
+            db.collection("User").where("phone_no","==",number )
+            .get()
+            .then(async (querySnapshot) => {
+                if (querySnapshot.docs.length){
+                    console.log(querySnapshot.docs.length);
+                    try {
+                        const phoneProvider = new PhoneAuthProvider(auth);
+                        const verificationId = await phoneProvider.verifyPhoneNumber(
+                        number,
+                        recaptchaVerifier.current
+                        );
+                        setVerificationId(verificationId);
+                        console.log('Verification code has been sent to your phone.');
+                        navigation.navigate('Verify',{verifyId: verificationId});
+                    
+                    } catch (err) {
+                        showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                        console.log(`Error: ${err.message}`);
+                    }
+                }else{
+                    alert("You need to Register first!");
+                }
+                
+            });
+
+            
         
-    }
+        }
+        else{
+            alert("Enter your phone number!");
+        }
+}
     
    
        
