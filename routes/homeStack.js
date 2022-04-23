@@ -8,13 +8,14 @@ import SignUpUser from "../screens/signupuser";
 import Verify from "../screens/verify";
 import Profile from "../screens/Profile";
 import Home from "../screens/Home";
+import Bookings from "../screens/Bookings";
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='Welcome'>
+            <Stack.Navigator initialRouteName='SignUpUser'>
                 <Stack.Screen 
                     name='Welcome' 
                     component={Welcome}
@@ -44,6 +45,11 @@ export default function Navigator() {
                     name='Home' 
                     component={Home}
                     options={{title: 'Home',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='Bookings' 
+                    component={Bookings}
+                    options={{title: 'Bookings',headerShown: false}}
                 />
                 <Stack.Screen 
                     name='Profile' 

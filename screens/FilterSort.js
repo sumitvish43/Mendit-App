@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { Shadow } from "react-native-shadow-2";
-import LinearGradient from "react-native-linear-gradient";
+
 
 export default function FilterSort() {
   return (

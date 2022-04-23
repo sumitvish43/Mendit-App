@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import Search from "./Search";
-import Slideshow from "./Slideshow";
+// import Slideshow from "./Slideshow";
 import Services from "./Services";
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
     <View style={styles.screen}>
       <View style={styles.container}>
         <Search placeholderText="Search for services near you" />
-        <Slideshow />
+        {/* <Slideshow /> */}
         <Services />
       </View>
     </View>

@@ -20,26 +20,24 @@ export  function Booking() {
 //DEMO TEMPLATE TO ADD DATA INTO FIREBASE
 export default class App extends Component {
 
-    state = {
-      
+    state = {  
       title: "",
       author: ""
     }
   
     
   
-    render() {
+    render() { 
       const { title, author } = this.state
-      //const { title, author } = this.state
       
       const handleButtonPress = async() =>
       {
-        alert("Add the book 2")
+        alert("Add the book 3")
           // create new thread using firebase & firestore
           //const db = firebase.firestore();
           db.collection("books").add({
-            author: "Ada2",
-            title: "Lovelace2",
+            author: "Ada3",
+            title: "Lovelace3",
             
         })
         .then((docRef) => {

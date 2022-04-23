@@ -1,19 +1,42 @@
-import React,{useState} from 'react';
-import { StyleSheet, Text, View, Modal,  TextInput, Image, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, Modal,  TextInput, Image, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import {useFocusEffect } from '@react-navigation/native';
+import { Checkbox } from 'react-native-paper';
+import { db } from '../firebase';
 
 
 export default function SignUpUser({navigation}){
-        
+    
     const [modalVisible, setModalVisible] = useState(true);
     const [number, onChangeNumber] = React.useState(null);
     const [text, setNewText] = React.useState(null);
+    const [checked, setChecked] = React.useState(false);
 
-    const pressHandler = () =>{
-        setModalVisible(true);
-        navigation.navigate('Login');
+    const signup = () =>{
+        if(!number || !text || !checked){
+            alert("Please fill all the details and check the checkbox")
+        }
+        else{
+
+            db.collection("User").add({
+                location: "",
+                username: text,
+                phone_no: number,
+                
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+
+            navigation.navigate('Login');
+        }
+
     }
+
     useFocusEffect(
         React.useCallback(() => {
             setModalVisible(true);
@@ -26,14 +49,12 @@ export default function SignUpUser({navigation}){
     return (
         <View style={styles.container}>
             <LinearGradient
-            // colors={['#9c9c9c','#6E6E6E', '#404040' ]}
             colors={['#009ffd','#2a2a72']}
             style={styles.linearGradient}
             >
                 <View style={styles.logo}>
                         <Image style={{width: 90, height: 90}} source={require('../assets/images/Mendit-Logo.png')}/> 
-                        <Text style={styles.logoText}> Mendit </Text>
-                        
+                        <Text style={styles.logoText}> Mendit </Text>        
                 </View>
                 
                 <Modal
@@ -47,26 +68,39 @@ export default function SignUpUser({navigation}){
                     
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Sign Up</Text>
+                            <Text style={styles.modalText}>Sign Up As User</Text>
                             <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Full Name</Text>
                             <TextInput
                                 style={styles.input}
                                 onChangeText={setNewText}
+                                value = {text}
                             />
                             <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Mobile Number</Text>
                             <TextInput
                                 style={styles.input}
                                 onChangeText={onChangeNumber}
                                 value={number}
-                                keyboardType="numeric"
+                                autoCompleteType="tel"
+                                keyboardType="phone-pad"
+                                textContentType="telephoneNumber"
+                                placeholder='+917777888999'
+                                maxLength={13}
                             />
+                            <View style={styles.policy}>
+                                <Checkbox
+                                    status={checked ? 'checked' : 'unchecked'}
+                                    color="#007AFF"
+                                    onPress={() => {
+                                        setChecked(!checked);
+                                    }}
+                                />
+                                <Text >I am atleast 18 years old.</Text>
+                            </View>
                             <View style={styles.buttons}>
-                                <TouchableOpacity style={styles.button1} >
-                                    <Text style = {styles.buttonText}>Send OTP</Text>
+                                <TouchableOpacity style={styles.button1} onPress={signup}>
+                                    <Text style = {styles.buttonText}>Sign Up</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.button2} onPress={pressHandler}>
-                                    <Text style = {styles.button2Text}>Sign Up</Text>
-                                </TouchableOpacity>
+
                             </View>
                         </View>
                     </View>
@@ -154,22 +188,10 @@ const styles = StyleSheet.create({
     },
     button2Text: {
         color: '#007AFF',           
+    },
+    policy:{
+
+        flexDirection:'row',
     }
 });
 
-// const styles = StyleSheet.create({
-    
-//     button2: {
-//         backgroundColor: 'white',
-//     },
-//     centeredView:{
-//         flex: 1,
-//         justifyContent: 'flex-end',
-//         width: '100%',
-//     },
-//     buttons:{
-//         flex: 1,
-//         justifyContent:'space-around',
-//         alignItems: 'center',
-//     },
-// })
