@@ -64,7 +64,7 @@ export default function Login({navigation}){
                         console.log(`Error: ${err.message}`);
                     }
                 }else{
-                    alert("You need to Register first!");
+                    alert("You need to Sign Up first!");
                 }
                 
             });
