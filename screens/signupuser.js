@@ -65,7 +65,7 @@ export default function SignUpUser({navigation}){
                                     <Text style = {styles.buttonText}>Send OTP</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.button2} onPress={pressHandler}>
-                                    <Text style = {styles.button2Text}>Sign Up</Text>
+                                    <Text style = {styles.button2Text}>Login</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
