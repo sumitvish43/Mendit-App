@@ -7,21 +7,20 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-// import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function Profile({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.userNameMob}>
-        <Text style={styles.username}>Aniruddha Dhawad</Text>
-        <Text style={styles.mobno}>+91 8787878787</Text>
+        <Text style={styles.username}>Mangesh Patil</Text>
+        <Text style={styles.mobno}>+91 9549549544</Text>
       </View>
 
       <FlatList
         data={[
           { key: "Edit Profile", icon: "edit" },
-          { key: "Manage Addresses", icon: "home" },
+          { key: "Change Location", icon: "home" },
           { key: "My Ratings", icon: "star" },
           { key: "Scheduled Bookings", icon: "calendar-today" },
           { key: "About Us", icon: "people-alt" },

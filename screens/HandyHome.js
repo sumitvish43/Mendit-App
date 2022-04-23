@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, BackHandler, Alert } from "react-native";
-
-import Search from "./Search";
-// import Slideshow from "./Slideshow";
-import Services from "./Services";
+import { StyleSheet, View, Text, BackHandler, Alert } from "react-native";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function Home() {
   useEffect(() => {
@@ -28,17 +25,18 @@ export default function Home() {
   }, []);
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.container}>
-        <Search placeholderText="Search for services near you" />
-        {/* <Slideshow /> */}
-        <Services />
-      </View>
+    <View style={styles.container}>
+      <MaterialIcons name="event-note" size={58} color="gray" />
+      <Text style={{ fontSize: 22 }}>Welcome, New jobs will be shown here</Text>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  screen: {
+  screen: {},
+  container: {
     marginTop: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
   },
 });
