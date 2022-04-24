@@ -9,13 +9,14 @@ import Verify from "../screens/verify";
 import Profile from "../screens/Profile";
 import Home from "../screens/Home";
 import Bookings from "../screens/Bookings";
+import SignUpHandyman from "../screens/signuphandyman";
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='SignUpUser'>
+            <Stack.Navigator initialRouteName='SignUpHandyman'>
                 <Stack.Screen 
                     name='Welcome' 
                     component={Welcome}
@@ -35,6 +36,11 @@ export default function Navigator() {
                     name='SignUpUser' 
                     component={SignUpUser}
                     options={{title: 'SignUpUser',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='SignUpHandyman' 
+                    component={SignUpHandyman}
+                    options={{title: 'SignUpHandyman',headerShown: false}}
                 />
                 <Stack.Screen 
                     name='Verify' 

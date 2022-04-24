@@ -56,7 +56,7 @@ export const modalStyles = StyleSheet.create({
         borderRightColor: 'white',
         borderBottomColor: '#a6a6a6',
         marginTop: 20,
-        fontSize: 25,
+        fontSize: 23,
         fontFamily: 'inter-regular'
     },
     buttons:{

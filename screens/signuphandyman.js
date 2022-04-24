@@ -4,7 +4,6 @@ import {LinearGradient} from 'expo-linear-gradient';
 import {useFocusEffect } from '@react-navigation/native';
 import { Checkbox } from 'react-native-paper';
 import { db } from '../firebase';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default function SignUpHandyman({navigation}){
@@ -13,6 +12,24 @@ export default function SignUpHandyman({navigation}){
     const [number, onChangeNumber] = React.useState(null);
     const [text, setNewText] = React.useState(null);
     const [checked, setChecked] = React.useState(false);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    const onSelectedItemsChange = (selectedItems) => {
+      setSelectedItems(selectedItems);
+    };
+    const items = [
+        // name key is must. It is to show the text in front
+        {id: 1, name: 'angellist'},
+        {id: 2, name: 'codepen'},
+        {id: 3, name: 'envelope'},
+        {id: 4, name: 'etsy'},
+        {id: 5, name: 'facebook'},
+        {id: 6, name: 'foursquare'},
+        {id: 7, name: 'github-alt'},
+        {id: 8, name: 'github'},
+        {id: 9, name: 'gitlab'},
+        {id: 10, name: 'instagram'},
+      ];
 
     const signup = () =>{
         if(!number || !text || !checked){
@@ -20,7 +37,7 @@ export default function SignUpHandyman({navigation}){
         }
         else{
 
-            db.collection("User").add({
+            db.collection("Handyman").add({
                 location: "",
                 username: text,
                 phone_no: number,
@@ -33,7 +50,7 @@ export default function SignUpHandyman({navigation}){
                 console.error("Error adding document: ", error);
             });
 
-            navigation.navigate('Login');
+            navigation.navigate('Signuphandymannext.js');
         }
 
     }
@@ -57,18 +74,18 @@ export default function SignUpHandyman({navigation}){
                         <Image style={{width: 90, height: 90}} source={require('../assets/images/Mendit-Logo.png')}/> 
                         <Text style={styles.logoText}> Mendit </Text>        
                 </View>
-                {/* <Modal
-                
+                <Modal
+                    style = {styles.modal}
                     animationType="slide"
                     transparent={true}
                     visible={modalVisible}
-                    propagateSwipe={true}
+                    // propagateSwipe={true}
                     onRequestClose = {()=>{
                         navigation.navigate('Welcome');
                     }}
-                > */}
-                    {/* <ScrollView> */}
+                >
                     <View style={styles.centeredView}>
+                        {/* <ScrollView> */}
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>Sign Up As Handyman</Text>
                             <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Full Name</Text>
@@ -89,30 +106,7 @@ export default function SignUpHandyman({navigation}){
                                 maxLength={13}
                             />
 
-                            <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Mobile Number</Text>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={onChangeNumber}
-                                value={number}
-                                autoCompleteType="tel"
-                                keyboardType="phone-pad"
-                                textContentType="telephoneNumber"
-                                placeholder='+917777888999'
-                                maxLength={13}
-                            />
-
-                            <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Mobile Number</Text>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={onChangeNumber}
-                                value={number}
-                                autoCompleteType="tel"
-                                keyboardType="phone-pad"
-                                textContentType="telephoneNumber"
-                                placeholder='+917777888999'
-                                maxLength={13}
-                            />
-                            
+                                                      
                             <View style={styles.policy}>
                                 <Checkbox
                                     status={checked ? 'checked' : 'unchecked'}
@@ -123,15 +117,38 @@ export default function SignUpHandyman({navigation}){
                                 />
                                 <Text style={{fontFamily: 'inter-regular',fontSize: 15}}>I am atleast 18 years old.</Text>
                             </View>
+
+                            <MultiSelect
+                                hideTags
+                                items={items}
+                                uniqueKey="id"
+                                onSelectedItemsChange={onSelectedItemsChange}
+                                selectedItems={selectedItems}
+                                selectText="Pick Items"
+                                searchInputPlaceholderText="Search Items..."
+                                onChangeInput={(text) => console.log(text)}
+                                tagRemoveIconColor="#CCC"
+                                tagBorderColor="#CCC"
+                                tagTextColor="#CCC"
+                                selectedItemTextColor="#CCC"
+                                selectedItemIconColor="#CCC"
+                                itemTextColor="#000"
+                                displayKey="name"
+                                searchInputStyle={{color: '#CCC'}}
+                                submitButtonColor="#48d22b"
+                                submitButtonText="Submit"
+                            />
                             <View style={styles.buttons}>
                                 <TouchableOpacity style={styles.button1} onPress={signup}>
-                                    <Text style = {styles.buttonText}>Sign Up</Text>
+                                    <Text style = {styles.buttonText}>Next</Text>
                                 </TouchableOpacity>
                             </View>
+                            
                         </View>
+                        {/* </ScrollView> */}
                     </View>
-                    {/* </ScrollView> */}
-                {/* </Modal>    */}
+
+                </Modal>   
             </LinearGradient>
         </View>
 
@@ -160,8 +177,11 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     modalView: {
+        // flex: 1,
+        // justifyContent: 'flex-end',
         backgroundColor: 'white',
         height: '80%',
+        width: '100%',
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
         padding: 20,
@@ -222,6 +242,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
         flexDirection:'row',
         alignItems: 'center'
-    }
+    },
+
 });
 

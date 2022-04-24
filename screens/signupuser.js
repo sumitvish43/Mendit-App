@@ -94,13 +94,12 @@ export default function SignUpUser({navigation}){
                                         setChecked(!checked);
                                     }}
                                 />
-                                <Text >I am atleast 18 years old.</Text>
+                                <Text style={{fontFamily: 'inter-regular',fontSize: 15}}>I am atleast 18 years old.</Text>
                             </View>
                             <View style={styles.buttons}>
                                 <TouchableOpacity style={styles.button1} onPress={signup}>
                                     <Text style = {styles.buttonText}>Sign Up</Text>
                                 </TouchableOpacity>
-
                             </View>
                         </View>
                     </View>
@@ -137,7 +136,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
         padding: 20,
-        
     },
     modalText:{
         marginTop: 40,
@@ -165,6 +163,8 @@ const styles = StyleSheet.create({
         borderLeftColor:'white',
         borderRightColor: 'white',
         borderBottomColor: '#a6a6a6',
+        fontFamily: 'inter-regular',
+        fontSize: 23
     },
     buttons:{
         flex: 1,
@@ -190,8 +190,9 @@ const styles = StyleSheet.create({
         color: '#007AFF',           
     },
     policy:{
-
+        marginTop: 40,
         flexDirection:'row',
+        alignItems: 'center'
     }
 });
 

@@ -73,7 +73,7 @@ export default function SignUpAs({navigation}){
                                     <Text style = {modalStyles.buttonText}>User</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.button1}>
-                                    <Text style = {modalStyles.buttonText}>Handyman</Text>
+                                    <Text style = {modalStyles.buttonText} onPress={()=>navigation.navigate('SignUpHandyman')}>Handyman</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
