@@ -2,10 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { Shadow } from "react-native-shadow-2";
-<<<<<<< HEAD
-=======
 
->>>>>>> 8a23e011e913b581e41b9c0c504e64eb9e9bd678
 
 export default function FilterSort() {
   return (
