@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {StyleSheet,ScrollView, Text, View, Modal,  TextInput, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, ScrollView, Text, View, Modal,  TextInput, Image, TouchableOpacity} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import {useFocusEffect } from '@react-navigation/native';
 import { Checkbox } from 'react-native-paper';
-import { db } from '../firebase';
-
+import { db, firebase } from '../firebase';
+import MultiSelect from 'react-native-multiple-select';
 
 export default function SignUpHandyman({navigation}){
     
@@ -18,39 +18,54 @@ export default function SignUpHandyman({navigation}){
       setSelectedItems(selectedItems);
     };
     const items = [
-        // name key is must. It is to show the text in front
-        {id: 1, name: 'angellist'},
-        {id: 2, name: 'codepen'},
-        {id: 3, name: 'envelope'},
-        {id: 4, name: 'etsy'},
-        {id: 5, name: 'facebook'},
-        {id: 6, name: 'foursquare'},
-        {id: 7, name: 'github-alt'},
-        {id: 8, name: 'github'},
-        {id: 9, name: 'gitlab'},
-        {id: 10, name: 'instagram'},
-      ];
+        {id: 1, name: 'AC service'},
+        {id: 2, name: 'Electrician'},
+        {id: 3, name: 'Carpenter'},
+        {id: 4, name: 'Painter'},
+        {id: 5, name: 'Plumber'},
+        {id: 6, name: 'Cleaner'},
+        {id: 7, name: 'Pest Control'},
+        {id: 8, name: 'Mason'},
+    ];
 
     const signup = () =>{
-        if(!number || !text || !checked){
+        
+        if(!number || !text || !checked || !selectedItems.length){
             alert("Please fill all the details and check the checkbox")
         }
+        else if (number.length != 13){
+            alert("Please enter a valid phone number!")
+        }
         else{
-
-            db.collection("Handyman").add({
-                location: "",
-                username: text,
-                phone_no: number,
-                
+            db.collection("Handyman")
+            .where("phone_no", "==", number)
+            .get()
+            .then(async (querySnapshot) => {
+                if (querySnapshot.docs.length) {
+                    alert("You are already registered!")
+                }
+                else{
+                    db.collection("Handyman").add({
+                        location: "",
+                        username: text,
+                        phone_no: number,
+                    })
+                    .then((docRef) => {
+                        console.log("Document written with ID: ", docRef.id);
+                        for(let i=0;i<selectedItems.length;i++){
+                            db.collection("Handyman").doc(docRef.id).update({
+                                services: firebase.firestore.FieldValue.arrayUnion(items[selectedItems[i]-1].name)
+                            })
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error adding document: ", error);
+                    });
+    
+                            
+                    navigation.navigate('Login');
+                }
             })
-            .then((docRef) => {
-                console.log("Document written with ID: ", docRef.id);
-            })
-            .catch((error) => {
-                console.error("Error adding document: ", error);
-            });
-
-            navigation.navigate('Signuphandymannext.js');
         }
 
     }
@@ -65,93 +80,102 @@ export default function SignUpHandyman({navigation}){
       );
 
     return (
+        
         <View style={styles.container}>
+            
             <LinearGradient
             colors={['#009ffd','#2a2a72']}
             style={styles.linearGradient}
-            >
+            >   
                 <View style={styles.logo}>
                         <Image style={{width: 90, height: 90}} source={require('../assets/images/Mendit-Logo.png')}/> 
                         <Text style={styles.logoText}> Mendit </Text>        
                 </View>
+                
                 <Modal
                     style = {styles.modal}
                     animationType="slide"
                     transparent={true}
                     visible={modalVisible}
-                    // propagateSwipe={true}
+                    propagateSwipe={true}
                     onRequestClose = {()=>{
                         navigation.navigate('Welcome');
                     }}
-                >
+                >   
+                    
+                    
                     <View style={styles.centeredView}>
-                        {/* <ScrollView> */}
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Sign Up As Handyman</Text>
-                            <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Full Name</Text>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={setNewText}
-                                value = {text}
-                            />
-                            <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Mobile Number</Text>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={onChangeNumber}
-                                value={number}
-                                autoCompleteType="tel"
-                                keyboardType="phone-pad"
-                                textContentType="telephoneNumber"
-                                placeholder='+917777888999'
-                                maxLength={13}
-                            />
-
-                                                      
-                            <View style={styles.policy}>
-                                <Checkbox
-                                    status={checked ? 'checked' : 'unchecked'}
-                                    color="#007AFF"
-                                    onPress={() => {
-                                        setChecked(!checked);
-                                    }}
+                            <ScrollView>
+                                <Text style={styles.modalText}>Sign Up As Handyman</Text>
+                                
+                                <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 50}}>Full Name</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={setNewText}
+                                    value = {text}
                                 />
-                                <Text style={{fontFamily: 'inter-regular',fontSize: 15}}>I am atleast 18 years old.</Text>
-                            </View>
+                                <Text style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginTop: 40}}>Mobile Number</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={onChangeNumber}
+                                    value={number}
+                                    autoCompleteType="tel"
+                                    keyboardType="phone-pad"
+                                    textContentType="telephoneNumber"
+                                    placeholder='+917777888999'
+                                    maxLength={13}
+                                />
 
-                            <MultiSelect
-                                hideTags
-                                items={items}
-                                uniqueKey="id"
-                                onSelectedItemsChange={onSelectedItemsChange}
-                                selectedItems={selectedItems}
-                                selectText="Pick Items"
-                                searchInputPlaceholderText="Search Items..."
-                                onChangeInput={(text) => console.log(text)}
-                                tagRemoveIconColor="#CCC"
-                                tagBorderColor="#CCC"
-                                tagTextColor="#CCC"
-                                selectedItemTextColor="#CCC"
-                                selectedItemIconColor="#CCC"
-                                itemTextColor="#000"
-                                displayKey="name"
-                                searchInputStyle={{color: '#CCC'}}
-                                submitButtonColor="#48d22b"
-                                submitButtonText="Submit"
-                            />
-                            <View style={styles.buttons}>
-                                <TouchableOpacity style={styles.button1} onPress={signup}>
-                                    <Text style = {styles.buttonText}>Next</Text>
-                                </TouchableOpacity>
-                            </View>
-                            
+                                <View style={styles.multiselect}>
+                                    <Text  style={{fontFamily: 'inter-regular', color: '#a6a6a6',marginBottom: 10}}>What services will you provide?</Text>
+                                    <MultiSelect
+                                        hideTags
+                                        items={items}                                          
+                                        uniqueKey="id"
+                                        fontFamily="inter-regular"
+                                        onSelectedItemsChange={onSelectedItemsChange}
+                                        selectedItems={selectedItems}
+                                        selectText="Pick Items"
+                                        searchInputPlaceholderText="Search Items..."
+                                        onChangeInput={(text) => console.log(text)}
+                                        tagRemoveIconColor="#CCC"
+                                        tagBorderColor="#CCC"
+                                        tagTextColor="#CCC"
+                                        selectedItemTextColor="#CCC"
+                                        selectedItemIconColor="#00FF00"
+                                        itemTextColor="#000"
+                                        displayKey="name"
+                                        searchInputStyle={{color: '#000',fontFamily: 'inter-regular'}}
+                                        submitButtonColor="#007AFF"
+                                        submitButtonText="Next"
+                                    />
+                                </View>
+                                <View style={styles.policy}>
+                                    <Checkbox
+                                        status={checked ? 'checked' : 'unchecked'}
+                                        color="#007AFF"
+                                        onPress={() => {
+                                            setChecked(!checked);
+                                        }}
+                                    />
+                                    <Text style={{fontFamily: 'inter-regular',fontSize: 15}}>I am atleast 18 years old.</Text>
+                                </View>
+                                            
+                                <View style={styles.buttons}>
+                                    <TouchableOpacity style={styles.button1} onPress={signup}>
+                                        <Text style = {styles.buttonText}>Sign Up</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                
+                        
+                            </ScrollView>
                         </View>
-                        {/* </ScrollView> */}
                     </View>
-
                 </Modal>   
+                
             </LinearGradient>
         </View>
-
     );
 }
 
@@ -177,8 +201,6 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     modalView: {
-        // flex: 1,
-        // justifyContent: 'flex-end',
         backgroundColor: 'white',
         height: '80%',
         width: '100%',
@@ -243,6 +265,8 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems: 'center'
     },
-
+    multiselect:{
+        marginTop: 40
+    }
 });
 

@@ -13,22 +13,40 @@ export default function SignUpUser({ navigation }) {
 
   const signup = () => {
     if (!number || !text || !checked) {
-      alert("Please fill all the details and check the checkbox");
-    } else {
-      db.collection("User")
-        .add({
-          location: "",
-          username: text,
-          phone_no: number,
-        })
-        .then((docRef) => {
-          console.log("Document written with ID: ", docRef.id);
-        })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
-        });
+      alert("Please fill all the details and check the checkbox!");
+    } 
+    else if (number.length != 13){
+      alert("Please enter a valid phone number!")
+    }
+    else {
 
-      navigation.navigate("Route");
+      db.collection("User")
+      .where("phone_no", "==", number)
+      .get()
+      .then(async (querySnapshot) => {
+        if (querySnapshot.docs.length) {
+          alert("You are already registered!")
+        }
+        else{
+          db.collection("User")
+          .add({
+            location: "",
+            username: text,
+            phone_no: number,
+          })
+          .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+          })
+          .catch((error) => {
+            console.error("Error adding document: ", error);
+          });
+
+          navigation.navigate("Login");
+        }
+      })
+
+
+      
     }
   };
 
