@@ -1,17 +1,21 @@
 import * as React from "react";
 import { BottomNavigation } from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Home from "../screens/Home";
 import Chat from "../screens/Chat";
 import Booking from "../screens/Bookings";
 import Profile from "../screens/Profile";
+import Results from "../screens/Results";
 
-const HomeRoute = () => <Home />;
-const ChatRoute = () => <Chat />;
-const ProfileRoute = () => <Profile />;
-const BookingsRoute = () => <Booking />;
+const Stack = createNativeStackNavigator();
 
-export default function Route() {
+export default function Route({ navigation }) {
+  const HomeRoute = () => <Home navigation={navigation} />;
+  const ChatRoute = () => <Chat navigation={navigation} />;
+  const ProfileRoute = () => <Profile navigation={navigation} />;
+  const BookingsRoute = () => <Booking navigation={navigation} />;
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
@@ -19,6 +23,7 @@ export default function Route() {
       title: "Home",
       icon: "home",
       color: "#007AFF",
+      nav: navigation,
     },
     {
       key: "booking",
@@ -49,10 +54,21 @@ export default function Route() {
   });
 
   return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-    />
+    <>
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
+      {/* <NavigationContainer>
+        <Stack.Navigator initialRouteName="Results">
+          <Stack.Screen
+            name="Results"
+            component={Results}
+            options={{ title: "Results", headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer> */}
+    </>
   );
 }

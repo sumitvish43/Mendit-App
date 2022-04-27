@@ -2,7 +2,8 @@ import React from "react";
 import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 
-export default function Services() {
+export default function Services({ navigation }) {
+  const service = ["ac", "plumber"];
   return (
     <View style={styles.container}>
       <Shadow distance={7} startColor={"#ddd"} radius={15}>
@@ -21,7 +22,9 @@ export default function Services() {
           <View style={styles.allservices}>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("AC Service")}
+              onPress={() => {
+                navigation.navigate("Results", { type: "AC" });
+              }}
             >
               <Image
                 style={styles.image}
@@ -29,9 +32,12 @@ export default function Services() {
               />
               <Text style={{ fontSize: 10 }}>AC service</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Electrician")}
+              onPress={() => {
+                navigation.navigate("Results", { type: "Electrician" });
+              }}
             >
               <Image
                 style={styles.image}
@@ -39,9 +45,12 @@ export default function Services() {
               />
               <Text style={{ fontSize: 10 }}>Electrician</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Carpentry")}
+              onPress={() => {
+                navigation.navigate("Results", { type: "Carpenter" });
+              }}
             >
               <Image
                 style={styles.image}
@@ -49,9 +58,12 @@ export default function Services() {
               />
               <Text style={{ fontSize: 10 }}>Carpenter</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Home Paint")}
+              onPress={() => {
+                navigation.navigate("Results", { type: "Painting" });
+              }}
             >
               <Image
                 style={styles.image}
@@ -60,10 +72,13 @@ export default function Services() {
               <Text style={{ fontSize: 10 }}>Painter</Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles.allservices}>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Plumber")}
+              onPress={() => {
+                navigation.navigate("Results", { type: "Plumbing" });
+              }}
             >
               <Image
                 style={styles.image}
@@ -71,9 +86,12 @@ export default function Services() {
               />
               <Text style={{ fontSize: 10 }}>Plumber</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Cleaner")}
+              onPress={() => {
+                navigation.navigate("Results", { type: "Cleaning" });
+              }}
             >
               <Image
                 style={styles.image}
@@ -81,9 +99,12 @@ export default function Services() {
               />
               <Text style={{ fontSize: 10 }}>Cleaner</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Cleaner")}
+              onPress={() => {
+                navigation.navigate("Results", { type: "Pest Control" });
+              }}
             >
               <Image
                 style={styles.image}
@@ -91,9 +112,12 @@ export default function Services() {
               />
               <Text style={{ fontSize: 10 }}>Pest Control</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Masonry")}
+              onPress={() => {
+                navigation.navigate("Results", { type: "Masonry" });
+              }}
             >
               <Image
                 style={styles.image}

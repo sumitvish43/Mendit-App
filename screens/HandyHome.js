@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, BackHandler, Alert, Text } from "react-native";
+import { StyleSheet, View, Text, BackHandler, Alert } from "react-native";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-import Search from "./Search";
-import Slideshow from "./Slideshow";
-import Services from "./Services";
-import navigation from "../routes/homeStack";
-
-export default function Home({ navigation }) {
+export default function Home() {
   useEffect(() => {
     const backButtonPress = () => {
       Alert.alert("EXIT", "Are you sure you want to exit?", [
@@ -29,17 +25,18 @@ export default function Home({ navigation }) {
   }, []);
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.container}>
-        <Search placeholderText="Your Location" icon="map-pin" />
-        <Slideshow />
-        <Services navigation={navigation} />
-      </View>
+    <View style={styles.container}>
+      <MaterialIcons name="event-note" size={58} color="gray" />
+      <Text style={{ fontSize: 22 }}>Welcome, New jobs will be shown here</Text>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  screen: {
+  screen: {},
+  container: {
     marginTop: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
   },
 });
