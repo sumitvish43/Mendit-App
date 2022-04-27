@@ -2,7 +2,9 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { Shadow } from "react-native-shadow-2";
+
 //import LinearGradient from "react-native-linear-gradient";
+
 
 export default function FilterSort() {
   return (
@@ -15,7 +17,7 @@ export default function FilterSort() {
               { borderRightWidth: 1, borderRightColor: "#eee" },
             ]}
           >
-            <FontAwesomeIcon name="filter" size={24} color="#007AFF" />
+            <FontAwesomeIcon name="filter" size={24} color="#888" />
             <Text style={{ fontSize: 18, marginLeft: 12 }}>Filter</Text>
           </TouchableOpacity>
 
@@ -25,11 +27,7 @@ export default function FilterSort() {
               { borderLeftWidth: 1, borderLeftColor: "#eee" },
             ]}
           >
-            <FontAwesomeIcon
-              name="sort-amount-desc"
-              size={22}
-              color="#007AFF"
-            />
+            <FontAwesomeIcon name="sort-amount-desc" size={22} color="#888" />
             <Text style={{ fontSize: 18, marginLeft: 12 }}>Sort</Text>
           </TouchableOpacity>
         </View>

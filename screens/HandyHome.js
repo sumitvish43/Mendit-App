@@ -1,21 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Alert } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, BackHandler, Alert } from "react-native";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as Location from 'expo-location';
-import { db } from "../firebase";
 
-const Welcome = ({ navigation }) => {
+export default function Home() {
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
-  const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
-    'Wait, we are fetching you location...'
-  );
-
   useEffect(() => {
     CheckIfLocationEnabled();
     GetCurrentLocation();
+    const backButtonPress = () => {
+      Alert.alert("EXIT", "Are you sure you want to exit?", [
+        {
+          text: "NO",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backButtonPress
+    );
+
+    return () => backHandler.remove();
   }, []);
 
-  
-  
   const GetCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
   
@@ -36,13 +48,13 @@ const Welcome = ({ navigation }) => {
     console.log("co",temp)
     if (coords) {
       const { latitude, longitude } = coords;
-      alert("Add the book 3")
+      alert("Saving Location")
           // create new thread using firebase & firestore
           //const db = firebase.firestore();
           db.collection("User").add({
             latitude: latitude,
             longitude: longitude,
-            identity: "test location2",
+            identity: "test location5",
             location_geopoint: temp, 
             
         })
@@ -52,16 +64,7 @@ const Welcome = ({ navigation }) => {
         .catch((error) => {
             console.error("Error adding document: ", error);
         });
-      // let response = await Location.reverseGeocodeAsync({
-      //   latitude,
-      //   longitude
-      // });
-  
-      // for (let item of response) {
-      //   let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
-  
-      //   setDisplayCurrentAddress(address);
-      // }
+      
     }
   };
 
@@ -82,42 +85,17 @@ const Welcome = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        {/* {<Image source={require('../assets/geo.png')} style={styles.image} />} */}
-        <Text style={styles.title}>What's your address?</Text>
-      </View>
-      {/* {<Text style={styles.text}>{displayCurrentAddress}</Text>} */}
+      <MaterialIcons name="event-note" size={58} color="gray" />
+      <Text style={{ fontSize: 22 }}>Welcome, New jobs will be shown here</Text>
     </View>
   );
-};
-
+}
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#070707',
-      alignItems: 'center',
-      paddingTop: 130
-    },
-    contentContainer: {
-      alignItems: 'center',
-      marginBottom: 20
-    },
-    image: {
-      width: 150,
-      height: 150,
-      resizeMode: 'contain',
-      marginBottom: 20
-    },
-    title: {
-      fontSize: 22,
-      fontWeight: '700',
-      color: '#FD0139'
-    },
-    text: {
-      fontSize: 20,
-      fontWeight: '400',
-      color: '#fff'
-    }
-  });
-
-export default Welcome;
+  screen: {},
+  container: {
+    marginTop: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+  },
+});

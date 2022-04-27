@@ -1,21 +1,25 @@
-import React, {Component} from "react";
-import { StyleSheet, SafeAreaView, Text, View, TextInput, Button  } from "react-native";
-//import { db } from "../firebase"
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  View,
+  TextInput,
+  Button,
+} from "react-native";
 
 import Search from "./Search";
 import FilterSort from "./FilterSort";
-import { db } from "../firebase"
+import { db } from "../firebase";
 
-export  function Booking() {
-
-  return (
-    <View style={styles.Bookings}>
-      <Search placeholderText="Search for a previous booking" />
-      <FilterSort />
-    </View>
-  );
-  
-}
+// export default function Booking() {
+//   return (
+//     <View style={styles.Bookings}>
+//       <Search placeholderText="Search for a previous booking" />
+//       <FilterSort />
+//     </View>
+//   );
+// }
 
 //DEMO TEMPLATE TO ADD DATA INTO FIREBASE
 export default class App extends Component {
@@ -81,21 +85,4 @@ const styles = StyleSheet.create({
   Bookings: {
     marginTop: 50,
   },
-  container: {
-    flex: 1,
-    backgroundColor: "#F5FCFF"
-  },
-  inputContainer: {
-    margin: 30
-  },
-  textInput: {
-    height: 30,
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 10,
-    fontSize: 24,
-    borderWidth: 1,
-    borderBottomColor: "#111111"
-  }
-  
 });

@@ -1,21 +1,29 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import Welcome from "../screens/welcome";
 import Login from "../screens/login";
 import SignUpAs from "../screens/signupas";
 import SignUpUser from "../screens/signupuser";
 import Verify from "../screens/verify";
+
+import UserRoute from "../Navigation/Route";
+import HandyRoute from "../Navigation/HandyRoute";
+
 import Profile from "../screens/Profile";
 import Home from "../screens/Home";
-import Bookings from "../screens/Bookings"
+import Bookings from "../screens/Bookings";
+import Location from "../screens/location"
+import HandyHome from "../screens/HandyHome"
+
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='Home'>
+            <Stack.Navigator initialRouteName='Welcome'>
                 <Stack.Screen 
                     name='Welcome' 
                     component={Welcome}
@@ -50,6 +58,26 @@ export default function Navigator() {
                     name='Bookings' 
                     component={Bookings}
                     options={{title: 'Home',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='Location' 
+                    component={Location}
+                    options={{title: 'Location',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='HandyHome' 
+                    component={HandyHome}
+                    options={{title: 'HandyHome',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='UserRoute' 
+                    component={UserRoute}
+                    options={{title: 'UserRoute',headerShown: false}}
+                />
+                <Stack.Screen 
+                    name='HandyRoute' 
+                    component={HandyRoute}
+                    options={{title: 'HandyRoute',headerShown: false}}
                 />
                 <Stack.Screen 
                     name='Profile' 
