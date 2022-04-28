@@ -18,12 +18,16 @@ import Location from "../screens/location"
 import HandyHome from "../screens/HandyHome"
 import SignUpHandyman from "../screens/signuphandyman";
 
+import home2 from "../screens/home2";
+import List from "../screens/components/List"
+import SearchBar from "../screens/components/searchBar";
+
 const Stack = createNativeStackNavigator();
 
 export default function Navigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='SignUpHandyman'>
+      <Stack.Navigator initialRouteName='SearchBar'>
         <Stack.Screen
           name='Welcome'
           component={Welcome}
@@ -83,6 +87,21 @@ export default function Navigator() {
           name='SignUpHandyman'
           component={SignUpHandyman}
           options={{ title: 'SignUpHandyman', headerShown: false }}
+        />
+        <Stack.Screen
+          name='home2'
+          component={home2}
+          options={{ title: 'home2', headerShown: false }}
+        />
+        <Stack.Screen
+          name='List'
+          component={List}
+          options={{ title: 'List', headerShown: false }}
+        />
+        <Stack.Screen
+          name='SearchBar'
+          component={SearchBar}
+          options={{ title: 'SearchBar', headerShown: false }}
         />
         <Stack.Screen
           name='Profile'

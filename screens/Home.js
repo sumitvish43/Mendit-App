@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, BackHandler, Alert } from "react-native";
 import { Text } from 'react-native';
-import Search from "./Search";
+import Search from "./components/searchBar";
 import Slideshow from "./Slideshow";
 import Services from "./Services";
 import { db } from "../firebase";
@@ -72,7 +72,12 @@ export default function Home({navigation}) {
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-        <Search placeholderText="Search for services near you" value={displayCurrentAddress} />
+        <Search placeholderText="Search for services near you"
+        searchPhrase={searchPhrase}
+        setSearchPhrase={setSearchPhrase}
+        clicked={clicked}
+        setClicked={setClicked}
+        value={displayCurrentAddress} />
         <Slideshow />
         <Services navigation={navigation}/>
       </View>
