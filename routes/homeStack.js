@@ -8,7 +8,7 @@ import SignUpUser from "../screens/signupuser";
 import Verify from "../screens/verify";
 import UserRoute from "../Navigation/Route";
 import HandyRoute from "../Navigation/HandyRoute";
-// import Profile from "../screens/Profile";
+import Profile from "../screens/Profile";
 import Home from "../screens/Home";
 // import Bookings from "../screens/Bookings";
 import SignUpHandyman from "../screens/signuphandyman";
@@ -20,7 +20,7 @@ export default function Navigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignUpHandyman">
+      <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen
           name="Welcome"
           component={Welcome}
@@ -65,6 +65,11 @@ export default function Navigator() {
           name="HandyRoute"
           component={HandyRoute}
           options={{ title: "HandyRoute", headerShown: false }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{ title: "Profile", headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

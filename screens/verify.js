@@ -11,7 +11,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useFocusEffect } from "@react-navigation/native";
 import { modalStyles } from "../styles/modalStyles";
-import { app } from "../firebase";
+
 import {
   getAuth,
   PhoneAuthProvider,

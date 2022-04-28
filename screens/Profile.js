@@ -3,14 +3,21 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   StyleSheet,
   FlatList,
 } from "react-native";
-// import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-export default function Profile({ navigation }) {
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+// import { useNavigation } from '@react-navigation/native';
+
+export default function Profile({navigation}) {
+  // const navigation = useNavigation(); 
+
+  const pressHandler = () =>{
+    // if(item == "logout"){
+      navigation.navigate("Welcome");
+    // }
+  }
   return (
     <View style={styles.container}>
       <View style={styles.userNameMob}>
@@ -28,9 +35,10 @@ export default function Profile({ navigation }) {
           { key: "Log Out", icon: "logout" },
         ]}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.listItem}>
+          <TouchableOpacity style={styles.listItem} onPress={pressHandler}>
             <Text style={styles.icon}>
-              <MaterialIcons name={item.icon} size={28} color="gray" />
+              <MaterialIcons name={item.icon} size={28} color="gray" 
+              />
             </Text>
             <Text style={styles.item}>{item.key}</Text>
           </TouchableOpacity>
