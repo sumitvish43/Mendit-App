@@ -38,11 +38,12 @@ export default function Login({ navigation }) {
   };
 
   const gotoVerify = async () => {
+    const numberFinal = "+91" + number;
     if (current) {
-      if (number) {
+      if (numberFinal) {
         if (current == "user") {
           db.collection("User")
-            .where("phone_no", "==", number)
+            .where("phone_no", "==", numberFinal)
             .get()
             .then(async (querySnapshot) => {
               if (querySnapshot.docs.length) {
@@ -50,7 +51,7 @@ export default function Login({ navigation }) {
                 try {
                   const phoneProvider = new PhoneAuthProvider(auth);
                   const verificationId = await phoneProvider.verifyPhoneNumber(
-                    number,
+                    numberFinal,
                     recaptchaVerifier.current
                   );
                   setVerificationId(verificationId);
@@ -58,6 +59,7 @@ export default function Login({ navigation }) {
                   navigation.navigate("Verify", {
                     verifyId: verificationId,
                     type: "user",
+                    number: numberFinal,
                   });
                 } catch (err) {
                   showMessage({ text: `Error: ${err.message}`, color: "red" });
@@ -69,7 +71,7 @@ export default function Login({ navigation }) {
             });
         } else if (current == "handyman") {
           db.collection("Handyman")
-            .where("phone_no", "==", number)
+            .where("phone_no", "==", numberFinal)
             .get()
             .then(async (querySnapshot) => {
               if (querySnapshot.docs.length) {
@@ -77,7 +79,7 @@ export default function Login({ navigation }) {
                 try {
                   const phoneProvider = new PhoneAuthProvider(auth);
                   const verificationId = await phoneProvider.verifyPhoneNumber(
-                    number,
+                    numberFinal,
                     recaptchaVerifier.current
                   );
                   setVerificationId(verificationId);
@@ -85,6 +87,7 @@ export default function Login({ navigation }) {
                   navigation.navigate("Verify", {
                     verifyId: verificationId,
                     type: "handyman",
+                    number: numberFinal
                   });
                 } catch (err) {
                   showMessage({ text: `Error: ${err.message}`, color: "red" });
@@ -194,8 +197,8 @@ export default function Login({ navigation }) {
                 autoCompleteType="tel"
                 keyboardType="phone-pad"
                 textContentType="telephoneNumber"
-                placeholder="+917777888999"
-                maxLength={13}
+                placeholder="7777888999"
+                maxLength={10}
               />
               <View style={modalStyles.buttons}>
                 <TouchableOpacity style={modalStyles.button1}>

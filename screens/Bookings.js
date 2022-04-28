@@ -12,14 +12,14 @@ import Search from "./Search";
 import FilterSort from "./FilterSort";
 import { db } from "../firebase";
 
-// export default function Booking() {
-//   return (
-//     <View style={styles.Bookings}>
-//       <Search placeholderText="Search for a previous booking" />
-//       <FilterSort />
-//     </View>
-//   );
-// }
+export default function Booking() {
+  return (
+    <View style={styles.Bookings}>
+      <Search placeholderText="Search for a previous booking" />
+      <FilterSort />
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   Bookings: {

@@ -24,6 +24,7 @@ export default function Verify({ navigation, route }) {
   const attemptInvisibleVerification = false;
   const verificationId = route.params.verifyId;
   const type = route.params.type;
+  const number = route.params.number;
   const [verificationCode, setVerificationCode] = React.useState();
   useFocusEffect(
     React.useCallback(() => {
@@ -82,13 +83,18 @@ export default function Verify({ navigation, route }) {
                     try {
                       const credential = PhoneAuthProvider.credential(
                         verificationId,
-                        verificationCode
+                        verificationCode,                      
                       );
                       await signInWithCredential(auth, credential);
                       if (type == "user") {
-                        navigation.navigate("UserRoute");
+                        //MUST SEND number TO USERROUTE AND HANDYROUTE SO THAT WE CAN USE IT TO IDENTIFY WHICH USER HAS LOGGED IN
+                        navigation.navigate("UserRoute", {
+                          number: number,
+                        });
                       } else {
-                        navigation.navigate("HandyRoute");
+                        navigation.navigate("HandyRoute", {
+                          number: number,
+                        });
                       }
                     } catch (err) {
                       showMessage({ text: `Enter correct OTP`, color: "red" });
