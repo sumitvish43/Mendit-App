@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Modal, TextInput, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Modal, TextInput, Image, TouchableOpacity, ToastAndroid,  Platform,  AlertIOS} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect } from '@react-navigation/native';
 import { Checkbox } from 'react-native-paper';
@@ -14,6 +14,9 @@ export default function SignUpUser({ navigation }) {
   const [checked2, setChecked2] = React.useState(false);
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
   const [isDisabled,setIsDisabled] = useState(true)
+
+  const locn = constructor({ latitude: 0, longitude: 0 })
+  const [currCoords,setCurrCoords] = useState(locn)
 
   const signup = () => {
     if(isDisabled){alert("Please Select Location First !!")}else{
@@ -36,7 +39,7 @@ export default function SignUpUser({ navigation }) {
           else {
             db.collection("User")
               .add({
-                location: "",
+                location: currCoords,
                 username: text,
                 phone_no: numberFinal,
               })
@@ -92,11 +95,17 @@ export default function SignUpUser({ navigation }) {
       // coordinates: new db.GeoPoint(Number(coords.latitude), Number(coords.longitude))
       console.log("co", temp)
       if (coords) {
-        const { latitude, longitude } = coords;
-        alert("Saving Location")
+        //const { latitude, longitude } = coords;
+        const msg = "Saving Location"
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(msg, ToastAndroid.SHORT)
+        } else {
+          AlertIOS.alert(msg);
+        }
+        setCurrCoords(temp)
         // create new thread using firebase & firestore
         //const db = firebase.firestore();
-        db.collection("User").add({
+        /*db.collection("User").add({
           latitude: latitude,
           longitude: longitude,
           identity: "test location6",
@@ -108,7 +117,7 @@ export default function SignUpUser({ navigation }) {
           })
           .catch((error) => {
             console.error("Error adding document: ", error);
-          });
+          });*/
 
       }
     };
@@ -216,7 +225,7 @@ export default function SignUpUser({ navigation }) {
                     locationSetter();
                   }}
                 />
-                <Text>Provide Location</Text>
+                <Text>I Consent to Provide Location</Text>
               </View>
               <View style={styles.buttons}>
                 {isDisabled && <TouchableOpacity style={styles.button3} onPress={signup}>

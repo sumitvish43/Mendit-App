@@ -59,6 +59,7 @@ export default function Login({ navigation }) {
                   navigation.navigate("Verify", {
                     verifyId: verificationId,
                     type: "user",
+                    number: numberFinal,
                   });
                 } catch (err) {
                   showMessage({ text: `Error: ${err.message}`, color: "red" });
@@ -78,7 +79,7 @@ export default function Login({ navigation }) {
                 try {
                   const phoneProvider = new PhoneAuthProvider(auth);
                   const verificationId = await phoneProvider.verifyPhoneNumber(
-                    number,
+                    numberFinal,
                     recaptchaVerifier.current
                   );
                   setVerificationId(verificationId);
@@ -86,6 +87,7 @@ export default function Login({ navigation }) {
                   navigation.navigate("Verify", {
                     verifyId: verificationId,
                     type: "handyman",
+                    number: numberFinal
                   });
                 } catch (err) {
                   showMessage({ text: `Error: ${err.message}`, color: "red" });
