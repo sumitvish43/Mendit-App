@@ -1,8 +1,10 @@
 import React from "react";
 import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { Shadow } from "react-native-shadow-2";
+import { useNavigation } from '@react-navigation/native';
 
 export default function Services() {
+  const navigation = useNavigation(); 
   return (
     <View style={styles.container}>
       <Shadow distance={7} startColor={"#ddd"} radius={15}>
@@ -21,7 +23,7 @@ export default function Services() {
           <View style={styles.allservices}>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("AC Service")}
+              onPress={() => navigation.navigate('Results') }
             >
               <Image
                 style={styles.image}

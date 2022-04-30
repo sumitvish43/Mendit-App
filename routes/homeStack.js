@@ -17,7 +17,8 @@ import Bookings from "../screens/Bookings";
 import Location from "../screens/location"
 import HandyHome from "../screens/HandyHome"
 import SignUpHandyman from "../screens/signuphandyman";
-
+import Results from "../screens/results";
+import Card from "../screens/components/card";
 import home2 from "../screens/home2";
 import List from "../screens/components/List"
 import SearchBar from "../screens/components/searchBar";
@@ -27,7 +28,7 @@ const Stack = createNativeStackNavigator();
 export default function Navigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Navigator initialRouteName="Results">
         <Stack.Screen
           name='Welcome'
           component={Welcome}
@@ -94,6 +95,11 @@ export default function Navigator() {
           options={{ title: 'home2', headerShown: false }}
         />
         <Stack.Screen
+          name='Card'
+          component={Card}
+          options={{ title: 'home2', headerShown: false }}
+        />
+        <Stack.Screen
           name='List'
           component={List}
           options={{ title: 'List', headerShown: false }}
@@ -101,6 +107,11 @@ export default function Navigator() {
         <Stack.Screen
           name='SearchBar'
           component={SearchBar}
+          options={{ title: 'SearchBar', headerShown: false }}
+        />
+        <Stack.Screen
+          name='Results'
+          component={Results}
           options={{ title: 'SearchBar', headerShown: false }}
         />
         <Stack.Screen
@@ -117,11 +128,7 @@ export default function Navigator() {
             }
           }
         />
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{ title: "Profile", headerShown: false }}
-        />
+        
       </Stack.Navigator>
 
     </NavigationContainer>

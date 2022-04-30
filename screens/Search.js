@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Feather, Entypo } from "@expo/vector-icons";
 
 export default function Search({ placeholderText, value }) {
-  const [searchPhrase, setSearchPhrase] = useState("");
+  // const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
 
   return (
@@ -21,7 +21,7 @@ export default function Search({ placeholderText, value }) {
           style={styles.input}
           placeholder={placeholderText}
           value={value}
-          onChangeText={setSearchPhrase}
+          // onChangeText={setSearchPhrase}
           onFocus={() => {
             setClicked(true);
           }}
@@ -33,9 +33,9 @@ export default function Search({ placeholderText, value }) {
             size={18}
             color="black"
             style={{ right: 7 }}
-            onPress={() => {
-              setSearchPhrase("");
-            }}
+            // onPress={() => {
+            //   setSearchPhrase("");
+            // }}
           />
         )}
       </View>

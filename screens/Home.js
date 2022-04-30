@@ -73,10 +73,10 @@ export default function Home({navigation}) {
     <View style={styles.screen}>
       <View style={styles.container}>
         <Search placeholderText="Search for services near you"
-        searchPhrase={searchPhrase}
-        setSearchPhrase={setSearchPhrase}
-        clicked={clicked}
-        setClicked={setClicked}
+        // searchPhrase={searchPhrase}
+        // setSearchPhrase={setSearchPhrase}
+        // clicked={clicked}
+        // setClicked={setClicked}
         value={displayCurrentAddress} />
         <Slideshow />
         <Services navigation={navigation}/>
