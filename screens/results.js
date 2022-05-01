@@ -5,24 +5,40 @@ import { db } from "../firebase";
 import { ActivityIndicator } from 'react-native';
 
 export default function Results() {
-  const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [users, setUsers] = useState([]);
+  const userid = global.docId;
+  const [loading, setLoading] = useState(true); 
+  const [handyman, setHandyman] = useState([]);
+ 
+  const createTask = (handymanDocId,service) =>{
+    db.collection('Task')
+    .add({
+      handymanID: handymanDocId,
+      type: service,
+      userId: userid,
+      date: new Date().toUTCString(),
 
+    }).then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+  }
   useEffect(()=>{
     const handyman = 
     db.collection('Handyman')
     .onSnapshot(querySnapshot=>{
-      const users = [];
+      const handyman = [];
       querySnapshot.forEach(documentSnapshot => {
         if(documentSnapshot.data().services[0] == "AC service"){
-          users.push({
+          handyman.push({
             service: 'AC service',
             name: documentSnapshot.data().username,
             key:documentSnapshot.id
           });
         }
       });
-      setUsers(users);
+      setHandyman(handyman);
       setLoading(false);
     });
     return ()=>handyman();
@@ -35,7 +51,7 @@ export default function Results() {
       return (
       <View style={styles.container}>
         <FlatList
-        data = {users}
+        data = {handyman}
         renderItem = {({item})=> (
         <View>
 
@@ -54,7 +70,7 @@ export default function Results() {
               <View style={styles.two}><Text style={{color: 'black',fontFamily:'inter-bold', flex: 1, flexWrap: 'wrap',fontSize: 22}}>{item.name}</Text></View>
               <View style={styles.three}>
                   <Text style={styles.text}>Chat</Text>
-                  <TouchableOpacity >
+                  <TouchableOpacity  onPress={()=>{createTask(item.key,item.service)}} >
                       <Text style={styles.text}>Book</Text>
                   </TouchableOpacity>
               </View>

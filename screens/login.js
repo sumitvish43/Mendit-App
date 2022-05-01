@@ -31,7 +31,7 @@ export default function Login({ navigation }) {
   const [verificationId, setVerificationId] = useState(null);
   const firebaseConfig = app ? app.options : undefined;
   const [current, setCurrent] = useState("");
-
+  var docid = "";
   const pressHandler = () => {
     setModalVisible(true);
     navigation.navigate("SignUpAs");
@@ -46,8 +46,13 @@ export default function Login({ navigation }) {
             .where("phone_no", "==", numberFinal)
             .get()
             .then(async (querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                docid = doc.id;
+              });
               if (querySnapshot.docs.length) {
+
                 console.log(querySnapshot.docs.length);
+        
                 try {
                   const phoneProvider = new PhoneAuthProvider(auth);
                   const verificationId = await phoneProvider.verifyPhoneNumber(
@@ -60,6 +65,7 @@ export default function Login({ navigation }) {
                     verifyId: verificationId,
                     type: "user",
                     number: numberFinal,
+                    docId: docid,
                   });
                 } catch (err) {
                   showMessage({ text: `Error: ${err.message}`, color: "red" });
@@ -87,7 +93,8 @@ export default function Login({ navigation }) {
                   navigation.navigate("Verify", {
                     verifyId: verificationId,
                     type: "handyman",
-                    number: numberFinal
+                    number: numberFinal,
+                    docId: querySnapshot.id,
                   });
                 } catch (err) {
                   showMessage({ text: `Error: ${err.message}`, color: "red" });

@@ -25,6 +25,8 @@ export default function Verify({ navigation, route }) {
   const verificationId = route.params.verifyId;
   const type = route.params.type;
   const number = route.params.number;
+  global.docId = route.params.docId;
+ 
   const [verificationCode, setVerificationCode] = React.useState();
   useFocusEffect(
     React.useCallback(() => {
@@ -88,9 +90,21 @@ export default function Verify({ navigation, route }) {
                       await signInWithCredential(auth, credential);
                       if (type == "user") {
                         //MUST SEND number TO USERROUTE AND HANDYROUTE SO THAT WE CAN USE IT TO IDENTIFY WHICH USER HAS LOGGED IN
+                        // var numberFinal = "+91"+number
+                        // db.collection('User')
+                        // .onSnapshot(querySnapshot=>{
+                          
+                        //   querySnapshot.forEach(documentSnapshot => {
+                        //     if(documentSnapshot.data().phone_no == numberFinal){
+                        //       global.UserID = documentSnapshot.id
+                        //     }
+                        //   });
+                        // });
+                        
                         navigation.navigate("UserRoute", {
                           number: number,
                         });
+                      
                       } else {
                         navigation.navigate("HandyRoute", {
                           number: number,

@@ -69,10 +69,7 @@ export default function SignUpUser({ navigation }) {
     }, [navigation])
   );
 
-  // useEffect(() => {
-  //   CheckIfLocationEnabled();
-  //   GetCurrentLocation();
-  // }, []);
+
   const locationSetter = () => {
     
 

@@ -6,9 +6,10 @@ import Slideshow from "./Slideshow";
 import Services from "./Services";
 import { db } from "../firebase";
 import * as Location from 'expo-location';
-import navigation from "../routes/homeStack"
+
 
 export default function Home({navigation}) {
+  console.log(global.docId);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     'Wait, we are fetching you location...'
   );
