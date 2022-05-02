@@ -11,7 +11,7 @@ export default function Search({ placeholderText, value }) {
       <View style={styles.searchBar}>
         {/* search Icon */}
         <Feather
-          name="search"
+          name="map-pin"
           size={20}
           color="black"
           style={{ paddingHorizontal: 10 }}
@@ -26,18 +26,6 @@ export default function Search({ placeholderText, value }) {
             setClicked(true);
           }}
         />
-        {/* cross Icon, depending on whether the search bar is clicked or not */}
-        {clicked && (
-          <Entypo
-            name="cross"
-            size={18}
-            color="black"
-            style={{ right: 7 }}
-            // onPress={() => {
-            //   setSearchPhrase("");
-            // }}
-          />
-        )}
       </View>
     </View>
   );

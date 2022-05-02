@@ -3,12 +3,10 @@ import { BottomNavigation } from "react-native-paper";
 // import AddTaskIcon from "@mui/icons-material/AddTask";
 
 import HandyHome from "../screens/HandyHome";
-import HandyChat from "../screens/HandyChat";
 import HandyBooking from "../screens/HandyBookings";
 import HandyProfile from "../screens/HandyProfile";
 
 const HandyHomeRoute = () => <HandyHome />;
-const HandyChatRoute = () => <HandyChat />;
 const HandyProfileRoute = () => <HandyProfile />;
 const HandyBookingsRoute = () => <HandyBooking />;
 

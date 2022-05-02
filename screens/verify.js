@@ -26,6 +26,7 @@ export default function Verify({ navigation, route }) {
   const type = route.params.type;
   const number = route.params.number;
   global.docId = route.params.docId;
+  global.phoneNum = number;
  
   const [verificationCode, setVerificationCode] = React.useState();
   useFocusEffect(

@@ -8,7 +8,7 @@ import SignUpAs from "../screens/signupas";
 import SignUpUser from "../screens/signupuser";
 import Verify from "../screens/verify";
 
-import UserRoute from "../Navigation/Route";
+import UserRoute from "../Navigation/UserRoute";
 import HandyRoute from "../Navigation/HandyRoute";
 
 import Profile from "../screens/Profile";
@@ -22,6 +22,7 @@ import Card from "../screens/components/card";
 import home2 from "../screens/home2";
 import List from "../screens/components/List"
 import SearchBar from "../screens/components/searchBar";
+import SentRequest from "../screens/sentRequest";
 
 const Stack = createNativeStackNavigator();
 
@@ -69,6 +70,11 @@ export default function Navigator() {
           component={Location}
           options={{ title: 'Location', headerShown: false }}
         />
+        <Stack.Screen
+        name='SentRequest'
+        component={SentRequest}
+        options={{ title: 'SentRequest', headerShown: false }}
+      />
         <Stack.Screen
           name='HandyHome'
           component={HandyHome}

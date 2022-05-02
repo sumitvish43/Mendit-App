@@ -3,8 +3,9 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import { useNavigation } from '@react-navigation/native';
 
-export default function Services() {
-  const navigation = useNavigation(); 
+export default function Services({navigation}) {
+
+
   return (
     <View style={styles.container}>
       <Shadow distance={7} startColor={"#ddd"} radius={15}>
@@ -23,7 +24,7 @@ export default function Services() {
           <View style={styles.allservices}>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => navigation.navigate('Results') }
+              onPress={() => navigation.navigate('Results', {type: "AC service"}) }
             >
               <Image
                 style={styles.image}
@@ -33,7 +34,7 @@ export default function Services() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Electrician")}
+              onPress={() => navigation.navigate('Results', {type: "Electrician"}) }
             >
               <Image
                 style={styles.image}
@@ -43,7 +44,7 @@ export default function Services() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Carpentry")}
+              onPress={() => navigation.navigate('Results', {type: "Carpenter"}) }
             >
               <Image
                 style={styles.image}
@@ -53,7 +54,7 @@ export default function Services() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Home Paint")}
+              onPress={() => navigation.navigate('Results', {type: "Painter"}) }
             >
               <Image
                 style={styles.image}
@@ -65,7 +66,7 @@ export default function Services() {
           <View style={styles.allservices}>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Plumber")}
+              onPress={() => navigation.navigate('Results', {type: "Plumber"}) }
             >
               <Image
                 style={styles.image}
@@ -75,7 +76,7 @@ export default function Services() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Cleaner")}
+              onPress={() => navigation.navigate('Results', {type: "Cleaner"}) }
             >
               <Image
                 style={styles.image}
@@ -85,7 +86,7 @@ export default function Services() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Cleaner")}
+              onPress={() => navigation.navigate('Results', {type: "Pest Control"}) }
             >
               <Image
                 style={styles.image}
@@ -95,7 +96,7 @@ export default function Services() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.servicebox}
-              onPress={() => alert("Masonry")}
+              onPress={() => navigation.navigate('Results', {type: "Mason"}) }
             >
               <Image
                 style={styles.image}

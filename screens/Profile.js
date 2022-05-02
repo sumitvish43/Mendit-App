@@ -5,37 +5,70 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  BackHandler,
+  Alert
 } from "react-native";
+import {db} from "../firebase";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-// import { useNavigation } from '@react-navigation/native';
 
-export default function Profile({navigation}) {
-  // const navigation = useNavigation(); 
+export default function Profile({navigation, mobile}) {
 
-  const pressHandler = () =>{
-    // if(item == "logout"){
-      navigation.navigate("Welcome");
-    // }
+  const [userName, setuserName] = React.useState("Anonymous");
+
+  const editProfile = () => {
+    alert("Edit Profile", "tt");
+  };
+  const myRatings = () => {
+    alert("Ratings", "tt");
+  };
+  const aboutUs = () => {
+    alert("About");
+  };
+  const settings = () => {
+    alert("Settings");
   }
+  const logOut = () => {
+    Alert.alert("LOG OUT", "Are you sure you want to log out?", [
+      {
+        text: "NO",
+        onPress: () => null,
+        style: "cancel",
+      },
+      { text: "YES", onPress: () => navigation.navigate("Welcome") },
+    ]);
+  };
+
+  {
+    db.collection("User").where("phone_no", "==", mobile)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setuserName(doc.data().username);
+        })
+          .catch((error) => {
+            console.log("Error getting data:", error);
+          });
+      });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.userNameMob}>
-        <Text style={styles.username}>Aniruddha Dhawad</Text>
-        <Text style={styles.mobno}>+91 8787878787</Text>
+        <Text style={styles.username}>{userName}</Text>
+        <Text style={styles.mobno}>{mobile}</Text>
       </View>
 
       <FlatList
         data={[
-          { key: "Edit Profile", icon: "edit" },
-          { key: "Manage Addresses", icon: "home" },
-          { key: "My Ratings", icon: "star" },
-          { key: "Scheduled Bookings", icon: "calendar-today" },
-          { key: "About Us", icon: "people-alt" },
-          { key: "Log Out", icon: "logout" },
+          { key: "Edit Profile", icon: "edit", clickHandler: editProfile },
+          { key: "About Us", icon: "people-alt", clickHandler: aboutUs },
+          { key: "Rate Mendit App", icon: "star", clickHandler: myRatings },
+          { key: "About Us", icon: "people-alt", clickHandler: aboutUs },
+          { key: "Settings", icon: "settings", clickHandler: settings },
+          { key: "Log Out", icon: "logout", clickHandler: logOut },
         ]}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.listItem} onPress={pressHandler}>
+          <TouchableOpacity style={styles.listItem} onPress={item.clickHandler}>
             <Text style={styles.icon}>
               <MaterialIcons name={item.icon} size={28} color="gray" 
               />

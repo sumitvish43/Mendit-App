@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from "react";
-import { FlatList, Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import Card from "./components/card";
+import { FlatList, Text, StyleSheet, View, Image, TouchableOpacity, BackHandler, Alert } from "react-native";
+import Card from "./components/card"
 import { db } from "../firebase";
 import { ActivityIndicator } from 'react-native';
 
-export default function Results() {
+export default function Results({navigation, route}) {
+  const serviceType = route.params.type;
+
   const userid = global.docId;
   const [loading, setLoading] = useState(true); 
   const [handyman, setHandyman] = useState([]);
- 
+
   const createTask = (handymanDocId,service) =>{
     db.collection('Task')
     .add({
@@ -24,26 +26,40 @@ export default function Results() {
       console.error("Error adding document: ", error);
     });
   }
+  useEffect(() => {
+    const backButtonPress = () => {
+      navigation.navigate('UserRoute');
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backButtonPress
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   useEffect(()=>{
     const handyman = 
     db.collection('Handyman')
     .onSnapshot(querySnapshot=>{
       const handyman = [];
       querySnapshot.forEach(documentSnapshot => {
-        if(documentSnapshot.data().services[0] == "AC service"){
+        if(documentSnapshot.data().services.includes(serviceType)){
           handyman.push({
-            service: 'AC service',
+            service: serviceType,
             name: documentSnapshot.data().username,
             key:documentSnapshot.id
           });
         }
       });
       setHandyman(handyman);
-      
       setLoading(false);
     });
     return ()=>handyman();
   },[]);
+
 
     if (loading) {
       return <ActivityIndicator />;
@@ -65,14 +81,13 @@ export default function Results() {
           </View>
           <View style={styles.right}>
               <View style={styles.one}>
-                  <Text style={styles.text}>Dist</Text>            
-                  <Text style={styles.text}>Rate</Text>
+                  <Text style={styles.text}>Dist</Text>
               </View>
-              <View style={styles.two}><Text style={{color: 'black',fontFamily:'inter-bold', flex: 1, flexWrap: 'wrap',fontSize: 22}}>{item.name}</Text></View>
+              <View style={styles.two}><Text style={{color: 'black',fontFamily:'inter-bold', flex: 1, flexWrap: 'wrap',fontSize: 22}}>{item.name}</Text>
+              </View><Text style={{fontFamily:'inter-bold'}}>{serviceType}</Text>
               <View style={styles.three}>
-                  <Text style={styles.text}>Chat</Text>
                   <TouchableOpacity  onPress={()=>{createTask(item.key,item.service)}} >
-                      <Text style={styles.text}>Book</Text>
+                      <Text style={styles.text} onPress={()=>navigation.navigate("SentRequest",{navigation: navigation})}>Book</Text>
                   </TouchableOpacity>
               </View>
           </View>
@@ -85,15 +100,17 @@ export default function Results() {
   }
 
   }
-  
+
 const styles = StyleSheet.create({
   container:{
     flex: 1,
+    padding: 20
   },
   right:{
+    // width: "70%",
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    
+
   },
   one:{
       color: 'white',
@@ -119,5 +136,7 @@ const styles = StyleSheet.create({
       borderRadius:8,
       fontFamily:'inter-bold'
   },
+  image:{
+
+  }
 });
-  

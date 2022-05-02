@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, BackHandler, Alert } from "react-native";
 import { Text } from 'react-native';
-import Search from "./components/searchBar";
+import Search from "./Search";
 import Slideshow from "./Slideshow";
 import Services from "./Services";
 import { db } from "../firebase";
@@ -9,7 +9,9 @@ import * as Location from 'expo-location';
 
 
 export default function Home({navigation}) {
+  const userNumber = global.phoneNum;
   console.log(global.docId);
+
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     'Wait, we are fetching you location...'
   );
@@ -36,7 +38,7 @@ export default function Home({navigation}) {
   }, []);
 
   {
-    db.collection("User").where("phone_no", "==", "+919326821622")
+    db.collection("User").where("phone_no", "==", userNumber)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -46,20 +48,18 @@ export default function Home({navigation}) {
           const longitude = doc.data().location.longitude;
           console.log(latitude, longitude);
           const GetCurrentLocation = async () => {
+            
             let response = await Location.reverseGeocodeAsync({
               latitude,
               longitude,
             });
+            console.log("aya tha idhar")
             for (let item of response) {
               let address = `${item.name}, ${item.postalCode}, ${item.city}`;
-
+              console.log(address, "yahi hai bhaiii")
               setDisplayCurrentAddress(address);
             }
-            
-            
-            
           }
-          console.log("adfadfadf");
           console.log("Address is: ", displayCurrentAddress);
           GetCurrentLocation();
         })
@@ -70,15 +70,11 @@ export default function Home({navigation}) {
   };
   //GetCurrentLocation();
 
+  console.log(displayCurrentAddress);
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-        <Search placeholderText="Search for services near you"
-        // searchPhrase={searchPhrase}
-        // setSearchPhrase={setSearchPhrase}
-        // clicked={clicked}
-        // setClicked={setClicked}
-        value={displayCurrentAddress} />
+        <Search placeholderText="Your Location" value={displayCurrentAddress} />
         <Slideshow />
         <Services navigation={navigation}/>
       </View>
