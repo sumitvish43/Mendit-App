@@ -103,11 +103,13 @@ export default function Verify({ navigation, route }) {
                         
                         navigation.navigate("UserRoute", {
                           number: number,
+                          
                         });
                       
                       } else {
                         navigation.navigate("HandyRoute", {
                           number: number,
+                          
                         });
                       }
                     } catch (err) {

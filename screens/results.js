@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { FlatList, Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import Card from "./components/card"
+import Card from "./components/card";
 import { db } from "../firebase";
 import { ActivityIndicator } from 'react-native';
 
@@ -39,6 +39,7 @@ export default function Results() {
         }
       });
       setHandyman(handyman);
+      
       setLoading(false);
     });
     return ()=>handyman();

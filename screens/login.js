@@ -81,6 +81,9 @@ export default function Login({ navigation }) {
             .get()
             .then(async (querySnapshot) => {
               if (querySnapshot.docs.length) {
+                querySnapshot.forEach((doc) => {
+                  docid = doc.id;
+                });
                 console.log(querySnapshot.docs.length);
                 try {
                   const phoneProvider = new PhoneAuthProvider(auth);
@@ -94,7 +97,7 @@ export default function Login({ navigation }) {
                     verifyId: verificationId,
                     type: "handyman",
                     number: numberFinal,
-                    docId: querySnapshot.id,
+                    docId: docid,
                   });
                 } catch (err) {
                   showMessage({ text: `Error: ${err.message}`, color: "red" });
