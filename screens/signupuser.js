@@ -100,21 +100,6 @@ export default function SignUpUser({ navigation }) {
           AlertIOS.alert(msg);
         }
         setCurrCoords(temp)
-        // create new thread using firebase & firestore
-        //const db = firebase.firestore();
-        /*db.collection("User").add({
-          latitude: latitude,
-          longitude: longitude,
-          identity: "test location6",
-          location_geopoint: temp,
-
-        })
-          .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
-          })
-          .catch((error) => {
-            console.error("Error adding document: ", error);
-          });*/
 
       }
     };

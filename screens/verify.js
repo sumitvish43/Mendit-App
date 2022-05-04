@@ -104,7 +104,6 @@ export default function Verify({ navigation, route }) {
                         
                         navigation.navigate("UserRoute", {
                           number: number,
-                          
                         });
                       
                       } else {

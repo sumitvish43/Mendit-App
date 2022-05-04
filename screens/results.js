@@ -5,27 +5,47 @@ import { db } from "../firebase";
 import { ActivityIndicator } from 'react-native';
 
 export default function Results({navigation, route}) {
-  const serviceType = route.params.type;
 
+  const mobile = global.phoneNum;
+  const serviceType = route.params.type;
   const userid = global.docId;
   const [loading, setLoading] = useState(true); 
   const [handyman, setHandyman] = useState([]);
+  const [userName, setuserName] = React.useState("");
 
-  const createTask = (handymanDocId,service) =>{
+  {
+    db.collection("User").where("phone_no", "==", mobile)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setuserName(doc.data().username);
+        })
+          .catch((error) => {
+            console.log("Error getting data:", error);
+          });
+      });
+  };
+
+  const createTask = (handyName, handymanNum, handymanDocId,service) =>{
     db.collection('Task')
     .add({
       handymanID: handymanDocId,
       type: service,
       userId: userid,
       date: new Date().toUTCString(),
-
+      accepted: false,
+      customerName: userName,
+      customerNumber: mobile,
+      rejected: false,
+      handymanName: handyName,
+      handymanNumber: handymanNum
     }).then((docRef) => {
       console.log("Document written with ID: ", docRef.id);
     })
     .catch((error) => {
       console.error("Error adding document: ", error);
     });
-  }
+  };
   useEffect(() => {
     const backButtonPress = () => {
       navigation.navigate('UserRoute');
@@ -50,6 +70,7 @@ export default function Results({navigation, route}) {
           handyman.push({
             service: serviceType,
             name: documentSnapshot.data().username,
+            handyNumber: documentSnapshot.data().phone_no,
             key:documentSnapshot.id
           });
         }
@@ -67,12 +88,12 @@ export default function Results({navigation, route}) {
     else{
       return (
       <View style={styles.container}>
+        <View style={styles.header}><Text style={{fontFamily:"inter-bold", fontSize:18, padding: 10}}>SEARCH RESULTS</Text></View>
         <FlatList
         data = {handyman}
         renderItem = {({item})=> (
-        <View>
 
-        <Card>
+        <View style={styles.card}>
           <View style={styles.left}>
             <Image
             style={styles.image}
@@ -80,34 +101,46 @@ export default function Results({navigation, route}) {
             />
           </View>
           <View style={styles.right}>
-              <View style={styles.one}>
-                  <Text style={styles.text}>Dist</Text>
-              </View>
               <View style={styles.two}><Text style={{color: 'black',fontFamily:'inter-bold', flex: 1, flexWrap: 'wrap',fontSize: 22}}>{item.name}</Text>
               </View><Text style={{fontFamily:'inter-bold'}}>{serviceType}</Text>
               <View style={styles.three}>
-                  <TouchableOpacity  onPress={()=>{createTask(item.key,item.service)}} >
-                      <Text style={styles.text} onPress={()=>navigation.navigate("SentRequest",{navigation: navigation})}>Book</Text>
+                  <TouchableOpacity >
+                      <Text style={styles.text} onPress={()=>{createTask(item.name, item.handyNumber, item.key,item.service); navigation.navigate("SentRequest",{navigation: navigation})}}>Book</Text>
                   </TouchableOpacity>
               </View>
           </View>
-        </Card>
         </View>
         )}
         /> 
       </View>
     );
   }
-
+  // createTask(item.key,item.service)
   }
 
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    padding: 20
+    padding: 20,
+    marginTop: 20
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "center",
+    borderBottomWidth: 2,
+    marginBottom: 20,
+  },
+  left:{
+    width: "40%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomLeftRadius: 12,
+    borderTopLeftRadius: 12,
+    backgroundColor: "#99e5ff"
   },
   right:{
-    // width: "70%",
+    padding: 20,
+    width: "100%",
     flexDirection: 'column',
     justifyContent: 'space-evenly',
 
@@ -129,14 +162,21 @@ const styles = StyleSheet.create({
       alignItems: 'flex-end'
   },
   text:{
-      color: '#F47171', 
-      padding: 5, 
-      backgroundColor: 'white',
-      margin: 5,
-      borderRadius:8,
+      color: '#Fff', 
+      padding: 6.5, 
+      backgroundColor: '#F47171',
+      // margin: 5,
+      right: 4,
+      borderRadius:7,
       fontFamily:'inter-bold'
   },
-  image:{
+  card:{
+    flexDirection: "row",
+      height: 150,
+      width: "100%",
+      backgroundColor: "white",
+      marginBottom: 20,
+      borderRadius: 12,
+  },
 
-  }
 });

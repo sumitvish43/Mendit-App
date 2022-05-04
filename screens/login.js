@@ -51,8 +51,6 @@ export default function Login({ navigation }) {
               });
               if (querySnapshot.docs.length) {
 
-                console.log(querySnapshot.docs.length);
-        
                 try {
                   const phoneProvider = new PhoneAuthProvider(auth);
                   const verificationId = await phoneProvider.verifyPhoneNumber(
@@ -84,7 +82,6 @@ export default function Login({ navigation }) {
                 querySnapshot.forEach((doc) => {
                   docid = doc.id;
                 });
-                console.log(querySnapshot.docs.length);
                 try {
                   const phoneProvider = new PhoneAuthProvider(auth);
                   const verificationId = await phoneProvider.verifyPhoneNumber(

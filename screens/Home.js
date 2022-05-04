@@ -10,7 +10,7 @@ import * as Location from 'expo-location';
 
 export default function Home({navigation}) {
   const userNumber = global.phoneNum;
-  console.log(global.docId);
+  global.navigation = navigation;
 
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     'Wait, we are fetching you location...'
@@ -42,25 +42,21 @@ export default function Home({navigation}) {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
+
           const latitude = doc.data().location.latitude;
           const longitude = doc.data().location.longitude;
-          console.log(latitude, longitude);
           const GetCurrentLocation = async () => {
             
             let response = await Location.reverseGeocodeAsync({
               latitude,
               longitude,
             });
-            console.log("aya tha idhar")
+
             for (let item of response) {
               let address = `${item.name}, ${item.postalCode}, ${item.city}`;
-              console.log(address, "yahi hai bhaiii")
               setDisplayCurrentAddress(address);
             }
           }
-          console.log("Address is: ", displayCurrentAddress);
           GetCurrentLocation();
         })
           .catch((error) => {
@@ -70,7 +66,7 @@ export default function Home({navigation}) {
   };
   //GetCurrentLocation();
 
-  console.log(displayCurrentAddress);
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>

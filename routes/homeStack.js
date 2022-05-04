@@ -14,14 +14,11 @@ import HandyRoute from "../Navigation/HandyRoute";
 import Profile from "../screens/Profile";
 import Home from "../screens/Home";
 import Bookings from "../screens/Bookings";
-import Location from "../screens/location"
-import HandyHome from "../screens/HandyHome"
+import HandyHome from "../screens/HandyHome";
 import SignUpHandyman from "../screens/signuphandyman";
 import Results from "../screens/results";
 import Card from "../screens/components/card";
-import home2 from "../screens/home2";
-import List from "../screens/components/List"
-import SearchBar from "../screens/components/searchBar";
+import List from "../screens/components/List";
 import SentRequest from "../screens/sentRequest";
 
 const Stack = createNativeStackNavigator();
@@ -65,11 +62,7 @@ export default function Navigator() {
           component={Bookings}
           options={{ title: 'Home', headerShown: false }}
         />
-        <Stack.Screen
-          name='Location'
-          component={Location}
-          options={{ title: 'Location', headerShown: false }}
-        />
+
         <Stack.Screen
         name='SentRequest'
         component={SentRequest}
@@ -96,11 +89,6 @@ export default function Navigator() {
           options={{ title: 'SignUpHandyman', headerShown: false }}
         />
         <Stack.Screen
-          name='home2'
-          component={home2}
-          options={{ title: 'home2', headerShown: false }}
-        />
-        <Stack.Screen
           name='Card'
           component={Card}
           options={{ title: 'home2', headerShown: false }}
@@ -109,11 +97,6 @@ export default function Navigator() {
           name='List'
           component={List}
           options={{ title: 'List', headerShown: false }}
-        />
-        <Stack.Screen
-          name='SearchBar'
-          component={SearchBar}
-          options={{ title: 'SearchBar', headerShown: false }}
         />
         <Stack.Screen
           name='Results'
@@ -134,7 +117,6 @@ export default function Navigator() {
             }
           }
         />
-        
       </Stack.Navigator>
 
     </NavigationContainer>

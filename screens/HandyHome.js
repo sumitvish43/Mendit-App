@@ -4,9 +4,10 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as Location from 'expo-location';
 import { db } from "../firebase";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { Password } from "@mui/icons-material";
 
 import { ActivityIndicator } from 'react-native';
+import Search  from "./Search";
+
 export default function Home() {
 
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
@@ -20,10 +21,13 @@ export default function Home() {
     const wait = timeout => {
       return new Promise(resolve => setTimeout(resolve, timeout));
     }
+    const updateStatus =  (docid)=>{
+      db.collection("Task").doc(docid).update({accepted: true}).then(()=>console.log("Aceepted the task!!")).catch((error)=>{console.error("Error updating the document: ", error)});
+    }
 
     const reject = (docid)=>{
-      db.collection("Task").doc(docid).delete().then(() => {
-        console.log("Document successfully deleted!");
+      db.collection("Task").doc(docid).update({rejected: true}).then(() => {
+        console.log("Request successfully deleted!");
     }).catch((error) => {
         console.error("Error removing document: ", error);
     });
@@ -34,23 +38,26 @@ export default function Home() {
       db.collection('Task')
       .onSnapshot(querySnapshot=>{
         const task = [];
-        querySnapshot.forEach(documentSnapshot => {
-          // console.log(documentSnapshot.id);
-          if(documentSnapshot.data().handymanID == handymanid){
-            task.push({
-              service: 'AC service',
-              user: documentSnapshot.data().userId,
-              key:documentSnapshot.id
-            });
+        querySnapshot.forEach(documentSnapshot => {       
+              if(documentSnapshot.data().handymanID == handymanid && !documentSnapshot.data().rejected){
+                task.push({
+                  service: documentSnapshot.data().type,
+                  user: documentSnapshot.data().customerName,
+                  key: documentSnapshot.id,
+                  customerNumber: documentSnapshot.data().customerNumber,
+                  accepted: documentSnapshot.data().accepted,
+                  timeStamp: documentSnapshot.data().date,
+                  rejected: documentSnapshot.data().rejected,
+                }); 
           }
         });
-        setTasks(task);
-      
+        setTasks(task);        
         setLoading(false);
       });
 
       return ()=>task();
     },[]);
+
 
   useEffect(() => {
     const backButtonPress = () => {
@@ -72,16 +79,15 @@ export default function Home() {
 
     return () => backHandler.remove();
   }, []);
+  
   {
-    db.collection("User").where("phone_no", "==", "+913333333335")
+    db.collection("Handyman").where("phone_no", "==", global.phoneNum)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
           const latitude = doc.data().location.latitude;
           const longitude = doc.data().location.longitude;
-          console.log(latitude, longitude);
+
           const GetCurrentLocation = async () => {
             let response = await Location.reverseGeocodeAsync({
               latitude,
@@ -92,12 +98,7 @@ export default function Home() {
 
               setDisplayCurrentAddress(address);
             }
-            
-            
-            
           }
-          console.log("adfadfadf");
-          console.log("Address is: ", displayCurrentAddress);
           GetCurrentLocation();
         })
           .catch((error) => {
@@ -105,57 +106,62 @@ export default function Home() {
           });
       });
   };
+
+  const updateScreen = useForceUpdate();
+  function useForceUpdate(){
+    const [value, setValue] = useState(0);
+    return () => setValue(value => value + 1);
+  }
   if (loading) {
     return <ActivityIndicator/>;
   }else{
   return (
-    <SafeAreaView>
     <View style={styles.container}>
-      {/* <MaterialIcons name="event-note" size={58} color="gray" />
-      <Text style={{ fontSize: 22 }}>Welcome, New jobs will be shown here</Text> */}
-      {/* <ScrollView
-        contentContainerStyle={styles.scrollView}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        <Text>Pull down to see RefreshControl indicator</Text> */}
-
+      <Search value={displayCurrentAddress}/>
         <FlatList
+        style={styles.taskList}
         data = {tasks}
         renderItem = {({item})=> (
           <View style={styles.cardContainer}>
             <View style={styles.top}>
-              <Text style = {{fontFamily:'inter-regular',fontSize: 18,marginBottom: 10}}>User ID: {item.user}</Text>
-              <Text style = {{fontFamily:'inter-regular',fontSize: 16}}>Service Type: {item.service}</Text>
+              <Text style = {{fontFamily:'inter-regular',fontSize: 17,marginBottom: 10, color: "black",}}>Customer: {item.user}</Text>
+              <Text style = {{fontFamily:'inter-regular',fontSize: 14, color: "black",}}>Service Type: {item.service}</Text>
+              <Text style = {{fontFamily:'inter-regular',fontSize: 14, color: "black",}}>Requested on: {item.timeStamp.slice(0, -12)}</Text>
             </View>
+
+            {item.rejected || item.accepted ?<View style={styles.contact}><Text style = {{fontFamily:'inter-regular',fontSize: 14, marginVertical: 10}}>Customer's number: {item.customerNumber}</Text></View>:
             <View style={styles.bottom}>
               
-              <TouchableOpacity  onPress={()=>{}} >
-                <Text style={styles.accept}>Accept</Text>
+              <TouchableOpacity>
+                <Text style={styles.accept} onPress={()=>{ updateScreen(); updateStatus(item.key);}}>Accept</Text>
               </TouchableOpacity>
-              <TouchableOpacity  onPress={()=>{}} >
-                  <Text style={styles.reject} onPress={()=>{reject(item.key)}}>Reject</Text>
+              <TouchableOpacity>
+                  <Text style={styles.reject} onPress={()=>{ reject(item.key)}}>Reject</Text>
               </TouchableOpacity>
-              </View>
+            </View>}
           </View>
         )}
         /> 
-      {/* </ScrollView> */}
     </View>
-    </SafeAreaView>
   );
   }
 }
 const styles = StyleSheet.create({
   container:{
-    marginTop: 50,
-    padding: 20,
+    marginTop: 20,
+    paddingTop: 20,
     
+  },
+  taskList:{
+    padding: 20,
+    marginBottom: 70
   },
   accept:{
     color: 'green',
     fontFamily:'inter-bold'
   },
   reject: {
-    color: 'red',
+    color: '#f00',
     fontFamily:'inter-bold'
   },
   top:{
@@ -165,9 +171,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },  
+  contact:{
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   cardContainer:{
     borderRadius: 10,
-    backgroundColor: '#E6E6E6',
+    backgroundColor: "#e7e7e7",
     padding: 10,
     flexDirection: 'column',
     justifyContent: 'space-evenly',

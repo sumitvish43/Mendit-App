@@ -5,7 +5,6 @@ import { Button } from "react-native-paper";
 
 export default function Sentrequest({navigation}){
     const userNumber = global.phoneNum;
-    console.log(userNumber);
     useEffect(() => {
         const backButtonPress = () => {
           navigation.navigate('UserRoute');

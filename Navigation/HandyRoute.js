@@ -1,16 +1,14 @@
 import * as React from "react";
 import { BottomNavigation } from "react-native-paper";
-// import AddTaskIcon from "@mui/icons-material/AddTask";
 
 import HandyHome from "../screens/HandyHome";
-import HandyBooking from "../screens/HandyBookings";
 import HandyProfile from "../screens/HandyProfile";
 
-const HandyHomeRoute = () => <HandyHome />;
-const HandyProfileRoute = () => <HandyProfile />;
-const HandyBookingsRoute = () => <HandyBooking />;
+export default function HandyRoute({navigation}) {
 
-export default function Route() {
+  const HandyHomeRoute = () => <HandyHome navigation={navigation}/>;
+  const HandyProfileRoute = () => <HandyProfile navigation={navigation}/>;
+
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
@@ -18,19 +16,6 @@ export default function Route() {
       title: "New",
       icon: "moon-new",
       color: "#007",
-    },
-    {
-      key: "handybooking",
-      title: "Job History",
-      icon: "briefcase",
-      color: "#007",
-    },
-    {
-      key: "handychat",
-      title: "Chat",
-      icon: "forum",
-      color: "#007",
-      badge: 1,
     },
     {
       key: "handyprofile",
@@ -42,9 +27,7 @@ export default function Route() {
 
   const renderScene = BottomNavigation.SceneMap({
     handyhome: HandyHomeRoute,
-    handychat: HandyChatRoute,
     handyprofile: HandyProfileRoute,
-    handybooking: HandyBookingsRoute,
   });
 
   return (
