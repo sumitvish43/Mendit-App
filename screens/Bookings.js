@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
   Button,
+  Image,
   FlatList
 } from "react-native";
 
@@ -46,6 +47,7 @@ export default function Booking() {
   return (
     <View style={styles.Bookings}>
       <View style={styles.header}><Text style={{fontFamily:"inter-bold", fontSize:18, padding: 10}}>YOUR BOOKINGS</Text></View>
+      {tasks.length?
       <FlatList
         style={styles.taskList}
         data = {tasks}
@@ -65,7 +67,8 @@ export default function Booking() {
             
           </View>
         )}
-        /> 
+        /> :<View style={styles.nobooking}><Image style={styles.image}
+        source={require("../assets/images/no_bookings.png")}/><Text style={{fontFamily: "inter-bold", fontSize: 20}}>No bookings yet!</Text></View>}
     </View>
   );
 }
@@ -117,5 +120,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     marginBottom: 20
+  },
+  image:{
+    height: 200,
+    width: 200
+  },
+  nobooking:{
+    justifyContent: "center",
+    alignItems: "center",
+    height: 600
   }
 });

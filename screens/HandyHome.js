@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {FlatList, TouchableOpacity, RefreshControl,ScrollView, StyleSheet, View, Text, BackHandler, Alert } from "react-native";
+import {FlatList, TouchableOpacity, RefreshControl,ScrollView, StyleSheet, View, Text, BackHandler, Alert, Image } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as Location from 'expo-location';
 import { db } from "../firebase";
@@ -21,6 +21,10 @@ export default function Home() {
     const wait = timeout => {
       return new Promise(resolve => setTimeout(resolve, timeout));
     }
+
+    const removeRequest =(docid)=>{
+      db.collection("Task").doc(docid).update({deleted: true}).then(()=>console.log("Removed the booking!!")).catch((error)=>{console.error("Error updating the document: ", error)});
+    }
     const updateStatus =  (docid)=>{
       db.collection("Task").doc(docid).update({accepted: true}).then(()=>console.log("Aceepted the task!!")).catch((error)=>{console.error("Error updating the document: ", error)});
     }
@@ -39,7 +43,7 @@ export default function Home() {
       .onSnapshot(querySnapshot=>{
         const task = [];
         querySnapshot.forEach(documentSnapshot => {       
-              if(documentSnapshot.data().handymanID == handymanid && !documentSnapshot.data().rejected){
+              if(documentSnapshot.data().handymanID == handymanid && !documentSnapshot.data().rejected && !documentSnapshot.data().deleted){
                 task.push({
                   service: documentSnapshot.data().type,
                   user: documentSnapshot.data().customerName,
@@ -118,6 +122,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <Search value={displayCurrentAddress}/>
+      {tasks.length?
         <FlatList
         style={styles.taskList}
         data = {tasks}
@@ -129,7 +134,7 @@ export default function Home() {
               <Text style = {{fontFamily:'inter-regular',fontSize: 14, color: "black",}}>Requested on: {item.timeStamp.slice(0, -12)}</Text>
             </View>
 
-            {item.rejected || item.accepted ?<View style={styles.contact}><Text style = {{fontFamily:'inter-regular',fontSize: 14, marginVertical: 10}}>Customer's number: {item.customerNumber}</Text></View>:
+            {item.rejected || item.accepted ?<View style={styles.contact}><Text style = {{fontFamily:'inter-regular',fontSize: 14, marginVertical: 10}}>Customer's number: {item.customerNumber}</Text><Text style={styles.text} onPress={()=>{removeRequest(item.key);}}>Remove</Text></View>:
             <View style={styles.bottom}>
               
               <TouchableOpacity>
@@ -141,7 +146,8 @@ export default function Home() {
             </View>}
           </View>
         )}
-        /> 
+        /> : <View style={styles.nobooking}><Image style={styles.image}
+        source={require("../assets/images/no_requests.png")}/><Text style={{fontFamily: "inter-bold", fontSize: 20}}>No work requests!</Text></View>}
     </View>
   );
   }
@@ -170,7 +176,17 @@ const styles = StyleSheet.create({
   bottom:{
     flexDirection: 'row',
     justifyContent: 'space-around',
-  },  
+  },
+  text:{
+    color: '#Fff', 
+    padding: 6.5, 
+    backgroundColor: '#F47171',
+    borderBottomLeftRadius: 7,
+    borderBottomRightRadius: 7,
+    fontFamily:'inter-bold',
+    textAlign: "center",
+    width: "100%"
+},
   contact:{
     backgroundColor: "#fff",
     borderRadius: 10,
@@ -185,5 +201,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     marginBottom: 20
+  },
+  image:{
+    height: 370,
+    width: 200
+  },
+  nobooking:{
+    justifyContent: "center",
+    alignItems: "center",
+    height: 600
   }
 });

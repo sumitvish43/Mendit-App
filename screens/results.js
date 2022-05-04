@@ -115,7 +115,6 @@ export default function Results({navigation, route}) {
       </View>
     );
   }
-  // createTask(item.key,item.service)
   }
 
 const styles = StyleSheet.create({

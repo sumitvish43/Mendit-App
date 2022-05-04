@@ -18,7 +18,7 @@ export default function UserRoute({navigation, route}) {
       key: "home",
       title: "Home",
       icon: "home",
-      color: "#007AFF",
+      color: "#000",
     },
     {
       key: "booking",

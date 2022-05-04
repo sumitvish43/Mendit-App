@@ -19,10 +19,10 @@ export default function HandyProfile({navigation}) {
     alert("Edit Profile", "tt");
   };
   const myRatings = () => {
-    alert("Ratings", "tt");
+    Alert.alert("Rate 5 star","You can rate our App on Play Store!");
   };
   const aboutUs = () => {
-    alert("About");
+    Alert.alert("About", "Mendit helps people finding good handymen and workers around them. One can request a handyman and get his/her contact number.");
   };
   const settings = () => {
     alert("Settings");
@@ -62,7 +62,6 @@ export default function HandyProfile({navigation}) {
           { key: "Edit Profile", icon: "edit", clickHandler: editProfile },
           { key: "Rate Mendit App", icon: "star", clickHandler: myRatings },
           { key: "About Us", icon: "people-alt", clickHandler: aboutUs },
-          { key: "Settings", icon: "settings", clickHandler: settings },
           { key: "Log Out", icon: "logout", clickHandler: logOut },
         ]}
         renderItem={({ item }) => (
