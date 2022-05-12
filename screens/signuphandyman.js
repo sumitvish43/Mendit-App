@@ -42,7 +42,7 @@ export default function SignUpHandyman({ navigation }) {
         if (!number || !text || !checked || !selectedItems.length) {
             alert("Please fill all the details and check the checkbox")
         }
-        else if (number.length != 13) {
+        else if (number.length != 10) {
             alert("Please enter a valid phone number!")
         }
         else {
@@ -187,7 +187,7 @@ export default function SignUpHandyman({ navigation }) {
                                     keyboardType="phone-pad"
                                     textContentType="telephoneNumber"
                                     placeholder='7777888999'
-                                    maxLength={13}
+                                    maxLength={10}
                                 />
 
                                 <View style={styles.multiselect}>
