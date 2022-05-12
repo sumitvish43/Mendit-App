@@ -54,7 +54,7 @@ export default function SignUpUser({ navigation }) {
                   console.error("Error adding document: ", error);
                 });
               //onImageUpload(); //for now, leave it
-              //navigation.navigate("Login");
+              navigation.navigate("Login");
             }
           })
 
