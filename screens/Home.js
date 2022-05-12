@@ -31,7 +31,11 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
+<<<<<<< Updated upstream
         <Search placeholderText="Your Location" icon="map-pin" />
+=======
+        <Search placeholderText={displayCurrentAddress} />
+>>>>>>> Stashed changes
         <Slideshow />
         <Services navigation={navigation} />
       </View>

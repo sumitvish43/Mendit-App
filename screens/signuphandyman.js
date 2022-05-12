@@ -36,6 +36,7 @@ export default function SignUpHandyman({navigation}){
         else if (number.length != 13){
             alert("Please enter a valid phone number!")
         }
+<<<<<<< Updated upstream
         else{
             db.collection("Handyman")
             .where("phone_no", "==", number)
@@ -55,6 +56,30 @@ export default function SignUpHandyman({navigation}){
                         for(let i=0;i<selectedItems.length;i++){
                             db.collection("Handyman").doc(docRef.id).update({
                                 services: firebase.firestore.FieldValue.arrayUnion(items[selectedItems[i]-1].name)
+=======
+        else {
+            const numberFinal = "+91" + number;
+            db.collection("Handyman")
+                .where("phone_no", "==", numberFinal)
+                .get()
+                .then(async (querySnapshot) => {
+                    if (querySnapshot.docs.length) {
+                        alert("You are already registered!")
+                    }
+                    else {
+                        db.collection("Handyman").add({
+                            location: currCoords,
+                            username: text,
+                            phone_no: numberFinal,
+                        })
+                            .then((docRef) => {
+                                console.log("Document written with ID: ", docRef.id);
+                                for (let i = 0; i < selectedItems.length; i++) {
+                                    db.collection("Handyman").doc(docRef.id).update({
+                                        services: firebase.firestore.FieldValue.arrayUnion(items[selectedItems[i] - 1].name)
+                                    })
+                                }
+>>>>>>> Stashed changes
                             })
                         }
                     })

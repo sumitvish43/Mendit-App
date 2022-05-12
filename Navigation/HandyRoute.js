@@ -6,11 +6,21 @@ import HandyHome from "../screens/HandyHome";
 import HandyChat from "../screens/HandyChat";
 import HandyBooking from "../screens/HandyBookings";
 import HandyProfile from "../screens/HandyProfile";
+import Chat from "../screens/Chat";
+import Nestedchat from "../screens/nestedChat";
 
+<<<<<<< Updated upstream
 const HandyHomeRoute = () => <HandyHome />;
 const HandyChatRoute = () => <HandyChat />;
 const HandyProfileRoute = () => <HandyProfile />;
 const HandyBookingsRoute = () => <HandyBooking />;
+=======
+export default function HandyRoute({navigation}) {
+
+  const HandyHomeRoute = () => <HandyHome navigation={navigation}/>;
+  const HandyProfileRoute = () => <HandyProfile navigation={navigation}/>;
+  const ChatRoute = () => <Chat navigation={navigation}/>;
+>>>>>>> Stashed changes
 
 export default function Route() {
   const [index, setIndex] = React.useState(0);
@@ -20,6 +30,13 @@ export default function Route() {
       title: "New",
       icon: "moon-new",
       color: "#007",
+      
+    },
+    {
+      key: "chat",
+      title: "Chat",
+      icon: "chat",
+      color: "#007AFF",
     },
     {
       key: "handybooking",
@@ -46,7 +63,11 @@ export default function Route() {
     handyhome: HandyHomeRoute,
     handychat: HandyChatRoute,
     handyprofile: HandyProfileRoute,
+<<<<<<< Updated upstream
     handybooking: HandyBookingsRoute,
+=======
+    chat: ChatRoute,
+>>>>>>> Stashed changes
   });
 
   return (

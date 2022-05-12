@@ -12,8 +12,16 @@ import HandyRoute from "../Navigation/HandyRoute";
 import Home from "../screens/Home";
 // import Bookings from "../screens/Bookings";
 import SignUpHandyman from "../screens/signuphandyman";
+<<<<<<< Updated upstream
 import Services from "../screens/Services";
 import Results from "../screens/Results";
+=======
+import Results from "../screens/results";
+import Card from "../screens/components/card";
+import DeleteCollection from "../screens/components/DeleteCollection";
+import SentRequest from "../screens/sentRequest";
+import NestedChat from "../screens/nestedChat";
+>>>>>>> Stashed changes
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +59,15 @@ export default function Navigator() {
           component={SignUpHandyman}
           options={{ title: "SignUpHandyman", headerShown: false }}
         />
+<<<<<<< Updated upstream
+=======
+
+        <Stack.Screen
+          name='SentRequest'
+          component={SentRequest}
+          options={{ title: 'SentRequest', headerShown: false }}
+        />
+>>>>>>> Stashed changes
         <Stack.Screen
           name="Verify"
           component={Verify}
@@ -67,9 +84,30 @@ export default function Navigator() {
           options={{ title: "Services", headerShown: false }}
         />
         <Stack.Screen
+<<<<<<< Updated upstream
           name="Results"
           component={Results}
           options={{ title: "Results", headerShown: false }}
+=======
+          name='Card'
+          component={Card}
+          options={{ title: 'home2', headerShown: false }}
+        />
+        <Stack.Screen
+          name='DeleteCollection'
+          component={DeleteCollection}
+          options={{ title: 'DeleteCollection', headerShown: false }}
+        />
+        <Stack.Screen
+          name='Results'
+          component={Results}
+          options={{ title: 'Results', headerShown: false }}
+        />
+        <Stack.Screen
+          name='NestedChat'
+          component={NestedChat}
+          options={{ title: 'NestedChat', headerShown: false }}
+>>>>>>> Stashed changes
         />
         <Stack.Screen
           name="HandyRoute"
