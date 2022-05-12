@@ -66,7 +66,7 @@ export default function Chat({ navigation }) {
                             </View>
                             
                             <Button
-                                title="Open Chat"
+                                title="Chat Now"
                                 onPress={() => navigation.navigate('NestedChat', {docId: item.key,userID: item.userID, handyID: item.handyID })}
                             />
                             {console.log("Button",item.key)}

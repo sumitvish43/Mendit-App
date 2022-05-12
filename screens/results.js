@@ -43,7 +43,9 @@ export default function Results({navigation, route}) {
       customerNumber: mobile,
       rejected: false,
       handymanName: handyName,
-      handymanNumber: handymanNum
+      handymanNumber: handymanNum,
+      deleted: false,
+      userDeleted: false
     }).then((docRef) => {
       console.log("Document written with ID: ", docRef.id);
     })

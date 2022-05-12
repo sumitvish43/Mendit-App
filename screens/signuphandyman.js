@@ -187,7 +187,7 @@ export default function SignUpHandyman({ navigation }) {
                                     keyboardType="phone-pad"
                                     textContentType="telephoneNumber"
                                     placeholder='7777888999'
-                                    maxLength={13}
+                                    maxLength={10}
                                 />
 
                                 <View style={styles.multiselect}>
