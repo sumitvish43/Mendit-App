@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Modal, TextInput, Image, TouchableOpacity, ToastAndroid,  Platform,  AlertIOS} from 'react-native';
+import { StyleSheet, Text, View, Modal, TextInput, Image, TouchableOpacity, ToastAndroid, Platform, AlertIOS, Button } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect } from '@react-navigation/native';
 import { Checkbox } from 'react-native-paper';
-import { db } from '../firebase';
+import { db, firebaseSvc } from '../firebase';
 import * as Location from 'expo-location';
+//import { Constants, ImagePicker, Permissions } from 'expo';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import * as ImageEditor from 'expo-image-manipulator';
 
 export default function SignUpUser({ navigation }) {
   const [modalVisible, setModalVisible] = useState(true);
@@ -13,50 +17,51 @@ export default function SignUpUser({ navigation }) {
   const [checked, setChecked] = React.useState(false);
   const [checked2, setChecked2] = React.useState(false);
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
-  const [isDisabled,setIsDisabled] = useState(true)
+  const [isDisabled, setIsDisabled] = useState(true)
 
   const locn = constructor({ latitude: 0, longitude: 0 })
-  const [currCoords,setCurrCoords] = useState(locn)
+  const [currCoords, setCurrCoords] = useState(locn)
 
   const signup = () => {
-    if(isDisabled){alert("Please Select Location First !!")}else{
-    if (!number || !text || !checked) {
-      alert("Please fill all the details and check the checkbox!");
+    if (isDisabled) { alert("Please Select Location First !!") } else {
+      if (!number || !text || !checked) {
+        alert("Please fill all the details and check the checkbox!");
+      }
+      else if (number.length != 10) {
+        alert("Please enter a valid phone number!")
+      }
+      else {
+        //number = "+91"+number;
+        const numberFinal = "+91" + number;
+        db.collection("User")
+          .where("phone_no", "==", numberFinal)
+          .get()
+          .then(async (querySnapshot) => {
+            if (querySnapshot.docs.length) {
+              alert("You are already registered!")
+            }
+            else {
+              db.collection("User")
+                .add({
+                  location: currCoords,
+                  username: text,
+                  phone_no: numberFinal,
+                })
+                .then((docRef) => {
+                  console.log("Document written with ID: ", docRef.id);
+                })
+                .catch((error) => {
+                  console.error("Error adding document: ", error);
+                });
+              //onImageUpload(); //for now, leave it
+              //navigation.navigate("Login");
+            }
+          })
+
+
+
+      }
     }
-    else if (number.length != 10) {
-      alert("Please enter a valid phone number!")
-    }
-    else {
-      //number = "+91"+number;
-      const numberFinal = "+91" + number;
-      db.collection("User")
-        .where("phone_no", "==", numberFinal)
-        .get()
-        .then(async (querySnapshot) => {
-          if (querySnapshot.docs.length) {
-            alert("You are already registered!")
-          }
-          else {
-            db.collection("User")
-              .add({
-                location: currCoords,
-                username: text,
-                phone_no: numberFinal,
-              })
-              .then((docRef) => {
-                console.log("Document written with ID: ", docRef.id);
-              })
-              .catch((error) => {
-                console.error("Error adding document: ", error);
-              });
-
-            navigation.navigate("Login");
-          }
-        })
-
-
-
-    }}
   };
 
   useFocusEffect(
@@ -69,9 +74,63 @@ export default function SignUpUser({ navigation }) {
     }, [navigation])
   );
 
+  const onImageUpload = async () => {
+    console.log("camera button pressed")
+    const { status: cameraRollPerm } = await Permissions.askAsync(
+      Permissions.CAMERA_ROLL
+    );
+    try {
+      // only if user allows permission to camera roll
+      if (cameraRollPerm === 'granted') {
+        console.log('choosing image granted...');
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          aspect: [4, 3],
+        });
+        console.log(
+          'ready to upload... pickerResult json:' + JSON.stringify(pickerResult)
+        );
+
+        var wantedMaxSize = 150;
+        var rawheight = pickerResult.height;
+        var rawwidth = pickerResult.width;
+
+        var ratio = rawwidth / rawheight;
+        var wantedwidth = wantedMaxSize;
+        var wantedheight = wantedMaxSize / ratio;
+        // check vertical or horizontal
+        if (rawheight > rawwidth) {
+          wantedwidth = wantedMaxSize * ratio;
+          wantedheight = wantedMaxSize;
+        }
+        console.log("scale image to x:" + wantedwidth + " y:" + wantedheight);
+        let resizedUri = await new Promise((resolve, reject) => {
+          ImageEditor.manipulateAsync(pickerResult.uri,
+            {
+              height: pickerResult.height,
+              width: pickerResult.width,
+              originX: 0,
+              originY: 0,              
+            },
+            (uri) => resolve(uri),
+            () => reject(),
+          );
+        });
+        let uploadUrl = await firebaseSvc.uploadImage(resizedUri);
+        //let uploadUrl = await firebaseSvc.uploadImageAsync(resizedUri);
+        await this.setState({ avatar: uploadUrl });
+        console.log(" - await upload successful url:" + uploadUrl);
+        console.log(" - await upload successful avatar state:" + this.state.avatar);
+        await firebaseSvc.updateAvatar(uploadUrl); //might failed
+      }
+    } catch (err) {
+      console.log('onImageUpload error:' + err.message);
+      alert('Upload image error:' + err.message);
+    }
+  };
 
   const locationSetter = () => {
-    
+
 
     const GetCurrentLocation = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -181,7 +240,7 @@ export default function SignUpUser({ navigation }) {
                 textContentType="telephoneNumber"
                 placeholder="7777888999"
                 maxLength={10}
-                className = 'input'
+                className='input'
               />
               <View style={styles.policy}>
                 <Checkbox
@@ -209,13 +268,18 @@ export default function SignUpUser({ navigation }) {
                 />
                 <Text>I Consent to Provide Location</Text>
               </View>
+              <Button
+                title="Upload Avatar Image"
+                style={styles.button1}
+                onPress={onImageUpload}
+              />
               <View style={styles.buttons}>
                 {isDisabled && <TouchableOpacity style={styles.button3} onPress={signup}>
                   <Text style={styles.buttonText}>Sign Up</Text>
-                  </TouchableOpacity>}
+                </TouchableOpacity>}
                 {!isDisabled && <TouchableOpacity style={styles.button1} onPress={signup}>
                   <Text style={styles.buttonText}>Sign Up</Text>
-                  </TouchableOpacity>
+                </TouchableOpacity>
                 }
               </View>
             </View>
@@ -308,7 +372,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
-  
+
   button2: {
     backgroundColor: 'white',
   },

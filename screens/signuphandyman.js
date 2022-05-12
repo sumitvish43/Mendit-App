@@ -46,8 +46,9 @@ export default function SignUpHandyman({ navigation }) {
             alert("Please enter a valid phone number!")
         }
         else {
+            const numberFinal = "+91" + number;
             db.collection("Handyman")
-                .where("phone_no", "==", number)
+                .where("phone_no", "==", numberFinal)
                 .get()
                 .then(async (querySnapshot) => {
                     if (querySnapshot.docs.length) {
@@ -57,7 +58,7 @@ export default function SignUpHandyman({ navigation }) {
                         db.collection("Handyman").add({
                             location: currCoords,
                             username: text,
-                            phone_no: number,
+                            phone_no: numberFinal,
                         })
                             .then((docRef) => {
                                 console.log("Document written with ID: ", docRef.id);

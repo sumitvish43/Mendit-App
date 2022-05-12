@@ -121,7 +121,7 @@ export default function Home() {
   }else{
   return (
     <View style={styles.container}>
-      <Search value={displayCurrentAddress}/>
+      <Search placeholderText={displayCurrentAddress}/>
       {tasks.length?
         <FlatList
         style={styles.taskList}

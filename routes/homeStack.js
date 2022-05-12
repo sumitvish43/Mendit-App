@@ -18,8 +18,9 @@ import HandyHome from "../screens/HandyHome";
 import SignUpHandyman from "../screens/signuphandyman";
 import Results from "../screens/results";
 import Card from "../screens/components/card";
-import List from "../screens/components/List";
+import DeleteCollection from "../screens/components/DeleteCollection";
 import SentRequest from "../screens/sentRequest";
+import NestedChat from "../screens/nestedChat";
 
 const Stack = createNativeStackNavigator();
 
@@ -64,10 +65,10 @@ export default function Navigator() {
         />
 
         <Stack.Screen
-        name='SentRequest'
-        component={SentRequest}
-        options={{ title: 'SentRequest', headerShown: false }}
-      />
+          name='SentRequest'
+          component={SentRequest}
+          options={{ title: 'SentRequest', headerShown: false }}
+        />
         <Stack.Screen
           name='HandyHome'
           component={HandyHome}
@@ -94,14 +95,19 @@ export default function Navigator() {
           options={{ title: 'home2', headerShown: false }}
         />
         <Stack.Screen
-          name='List'
-          component={List}
-          options={{ title: 'List', headerShown: false }}
+          name='DeleteCollection'
+          component={DeleteCollection}
+          options={{ title: 'DeleteCollection', headerShown: false }}
         />
         <Stack.Screen
           name='Results'
           component={Results}
-          options={{ title: 'SearchBar', headerShown: false }}
+          options={{ title: 'Results', headerShown: false }}
+        />
+        <Stack.Screen
+          name='NestedChat'
+          component={NestedChat}
+          options={{ title: 'NestedChat', headerShown: false }}
         />
         <Stack.Screen
           name='Profile'

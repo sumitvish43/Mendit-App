@@ -70,7 +70,7 @@ export default function Home({navigation}) {
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-        <Search placeholderText="Your Location" value={displayCurrentAddress} />
+        <Search placeholderText={displayCurrentAddress} />
         <Slideshow />
         <Services navigation={navigation}/>
       </View>

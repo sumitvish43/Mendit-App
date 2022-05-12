@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { FlatList, Text, StyleSheet, View, Image, TouchableOpacity, BackHandler, Alert } from "react-native";
-import Card from "./components/card"
+//import Card from "./components/card"
 import { db } from "../firebase";
 import { ActivityIndicator } from 'react-native';
+//import { MarkChatReadSharp } from "@mui/icons-material";
 
 export default function Results({navigation, route}) {
 
@@ -12,6 +13,8 @@ export default function Results({navigation, route}) {
   const [loading, setLoading] = useState(true); 
   const [handyman, setHandyman] = useState([]);
   const [userName, setuserName] = React.useState("");
+  const [longitude, setlongitude] = useState(0);
+  const [latitude, setlatitude] = useState(0);
 
   {
     db.collection("User").where("phone_no", "==", mobile)
@@ -19,6 +22,8 @@ export default function Results({navigation, route}) {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           setuserName(doc.data().username);
+          setlongitude(doc.data().location.longitude);
+          setlatitude(doc.data().location.latitude);
         })
           .catch((error) => {
             console.log("Error getting data:", error);
@@ -60,6 +65,26 @@ export default function Results({navigation, route}) {
     return () => backHandler.remove();
   }, []);
 
+  function degreesToRadians(degrees) {
+    return degrees * Math.PI / 180;
+  }
+  
+  function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
+    var earthRadiusKm = 6371;
+  
+    var dLat = degreesToRadians(lat2-lat1);
+    var dLon = degreesToRadians(lon2-lon1);
+  
+    lat1 = degreesToRadians(lat1);
+    lat2 = degreesToRadians(lat2);
+  
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    const d =  Number(earthRadiusKm * c);
+    return (Number((earthRadiusKm * c)/1.0));
+  }
+
   useEffect(()=>{
     const handyman = 
     db.collection('Handyman')
@@ -71,10 +96,17 @@ export default function Results({navigation, route}) {
             service: serviceType,
             name: documentSnapshot.data().username,
             handyNumber: documentSnapshot.data().phone_no,
-            key:documentSnapshot.id
+            key:documentSnapshot.id,
+            /* {add text for distance from location here} */
+            dist: distanceInKmBetweenEarthCoordinates(longitude, latitude, documentSnapshot.data().location.longitude, documentSnapshot.data().location.latitude)
+
           });
         }
+        //console.log("distance : ", handyman[0].dist);
       });
+      handyman.map((handy)=>console.log(handy.dist))
+
+      
       setHandyman(handyman);
       setLoading(false);
     });
@@ -90,7 +122,8 @@ export default function Results({navigation, route}) {
       <View style={styles.container}>
         <View style={styles.header}><Text style={{fontFamily:"inter-bold", fontSize:18, padding: 10}}>SEARCH RESULTS</Text></View>
         <FlatList
-        data = {handyman}
+        // data = {handyman}
+        data={handyman.sort((a, b) =>a.dist - b.dist)}
         renderItem = {({item})=> (
 
         <View style={styles.card}>
@@ -106,6 +139,16 @@ export default function Results({navigation, route}) {
               <View style={styles.three}>
                   <TouchableOpacity >
                       <Text style={styles.text} onPress={()=>{createTask(item.name, item.handyNumber, item.key,item.service); navigation.navigate("SentRequest",{navigation: navigation})}}>Book</Text>
+                        {/* <Text style={styles.text}>{Math.trunc(Number(item.dist))}</Text> */}
+                        {/* <Text style={styles.text}>2</Text> */}
+
+                  </TouchableOpacity>
+                  <TouchableOpacity >
+                      <Text style={styles.text}>{(Number(item.dist))}</Text>
+                      {/* <Text style={styles.text}>2</Text> */}
+                      {/* <Text style={styles.text}>{Math.trunc(Number(item.dist))}</Text> */}
+
+
                   </TouchableOpacity>
               </View>
           </View>

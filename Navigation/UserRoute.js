@@ -4,6 +4,7 @@ import { BottomNavigation } from "react-native-paper";
 import Home from "../screens/Home";
 import Booking from "../screens/Bookings";
 import Profile from "../screens/Profile";
+import Chat from "../screens/Chat";
 
 export default function UserRoute({navigation, route}) {
 
@@ -11,6 +12,7 @@ export default function UserRoute({navigation, route}) {
   const HomeRoute = () => <Home navigation={navigation}/>;
   const ProfileRoute = () => <Profile navigation={navigation} mobile={userNumber}/>;
   const BookingsRoute = () => <Booking navigation={navigation}/>;
+  const ChatRoute = () => <Chat navigation={navigation}/>;
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -24,14 +26,19 @@ export default function UserRoute({navigation, route}) {
       key: "booking",
       title: "My Bookings",
       icon: "calendar-text",
-      color: "#007AFF",
+      color: "#000",
     },
-
+    {
+      key: "chat",
+      title: "Chat",
+      icon: "chat",
+      color: "#000",
+    },
     {
       key: "profile",
       title: "Profile",
       icon: "account-circle",
-      color: "#007AFF",
+      color: "#000",
     },
   ]);
 
@@ -39,6 +46,7 @@ export default function UserRoute({navigation, route}) {
     home: HomeRoute,
     profile: ProfileRoute,
     booking: BookingsRoute,
+    chat: ChatRoute,
   });
 
   return (
