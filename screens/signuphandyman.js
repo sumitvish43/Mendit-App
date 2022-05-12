@@ -186,7 +186,7 @@ export default function SignUpHandyman({ navigation }) {
                                     autoCompleteType="tel"
                                     keyboardType="phone-pad"
                                     textContentType="telephoneNumber"
-                                    placeholder='+917777888999'
+                                    placeholder='7777888999'
                                     maxLength={13}
                                 />
 

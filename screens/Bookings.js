@@ -1,5 +1,5 @@
-import { ControlPointSharp } from "@mui/icons-material";
-import { addDoc, collection, doc } from "firebase/firestore";
+//import { ControlPointSharp } from "@mui/icons-material";
+//import { addDoc, collection, doc } from "firebase/firestore";
 import React, { useState, useEffect, Component } from "react";
 import {
   StyleSheet,
@@ -48,8 +48,13 @@ export default function Booking() {
 
     return () => task();
   }, []);
+
   const redirectChat = (hname, hno, uname2) => {
-    alert("chat" + hname + hno + uname2);
+    //const redirectChat = () => {
+
+    //alert("chat" + hname + hno + uname2);
+    alert("chat", hno, hname, yourNumber, uname2);
+    console.log(hno, hname, uname2);
     //hname, hno, yourNumber
     /**
      go to chat
@@ -87,7 +92,7 @@ export default function Booking() {
     //           //   uID: yourNumber,
     //           //   hname: hname,
     //           //   uname: uname2,
-  
+
     //           // })
     //           console.log("else");
     //           db.collection('chats').add({
@@ -102,7 +107,7 @@ export default function Booking() {
     //           })
     //         }
     //       }
-          
+
 
     //     });
     //     openchats.map((ocs) => console.log(ocs.key));
@@ -111,7 +116,45 @@ export default function Booking() {
     //     console.log("querysnapshots3");
     //   });
 
+    db.collection("chats").where("hID", "==", hno)
+      .where("uID", "==", yourNumber)
+      .get()
+      .then((querySnapshot) => {
+        console.log("inside", querySnapshot.empty, "ok");
+        if (!querySnapshot.empty) {
+          //redirect to chat nav
+          querySnapshot.forEach((doc) => {
+            navigation.navigate('NestedChat', { docId: doc.id, userID: doc.data().uID, handyID: doc.data().hID })
+          })
 
+        }
+        else {
+                    //create document in chats, add info, create chats2, redirect
+                    
+                    console.log("else");
+                    db.collection('chats').add({
+                      hID: hno,
+                      uID: yourNumber,
+                      hname: hname,
+                      uname: uname2
+                    }).then((docRef) => {
+                      console.log("document written with ID: ", docRef.id);
+                      db.collection('chats/' + docRef.id + '/chats2');
+                      navigation.navigate('NestedChat', { docId: docRef.id, userID: yourNumber, handyID: hno });
+                    })
+                  }
+
+
+     /* querySnapshot.forEach(documentSnapshot => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log("inside 2");
+        console.log(documentSnapshot.id, " => ", documentSnapshot.data().hID);
+      });*/
+
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
 
 
   }
