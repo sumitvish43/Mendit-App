@@ -194,7 +194,7 @@ export default function Profile({ navigation, mobile }) {
 
       <FlatList
         data={[
-          { key: "Edit Profile", icon: "edit", clickHandler: editProfile },
+          // { key: "Edit Profile", icon: "edit", clickHandler: editProfile },
           { key: "About Us", icon: "people-alt", clickHandler: aboutUs },
           { key: "Rate Mendit App", icon: "star", clickHandler: myRatings },
           { key: "Reset Location", icon: "location-on", clickHandler: locationSetter },

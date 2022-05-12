@@ -107,6 +107,7 @@ import React, {
   import { signOut } from 'firebase/auth';
   
   import { auth, db } from '../firebase';
+
   export default function NestedChat({ navigation, route }) {
     const [messages, setMessages] = useState([]);
     const {userID, docId, handyID} = route.params;
@@ -129,18 +130,18 @@ import React, {
         )
       });
     }, [navigation]);
+    
     useEffect(() => {
-        // const backButtonPress = () => {
-        //     navigation.navigate('UserRoute');
-        //     return true;
-        //   };
+        const backButtonPress = () => {
+            navigation.navigate('UserRoute');
+            return true;
+          };
       
-        //   const backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     backButtonPress
-        //   );
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backButtonPress
+          );
       
-          //return () => backHandler.remove();
 
 
         const string1 = 'chats/'+docId+'/chats2';
