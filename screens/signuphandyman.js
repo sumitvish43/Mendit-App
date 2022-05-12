@@ -42,7 +42,7 @@ export default function SignUpHandyman({ navigation }) {
         if (!number || !text || !checked || !selectedItems.length) {
             alert("Please fill all the details and check the checkbox")
         }
-        else if (number.length != 13) {
+        else if (number.length != 10) {
             alert("Please enter a valid phone number!")
         }
         else {
