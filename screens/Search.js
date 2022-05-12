@@ -1,11 +1,8 @@
-import { StyleSheet, TextInput, View, Keyboard, Button } from "react-native";
+import { StyleSheet, TextInput, View, Keyboard, Button, Text } from "react-native";
 import React, { useState } from "react";
 import { Feather, Entypo } from "@expo/vector-icons";
 
 export default function Search({ placeholderText, value }) {
-  // const [searchPhrase, setSearchPhrase] = useState("");
-  const [clicked, setClicked] = useState(false);
-
   return (
     <View style={styles.header}>
       <View style={styles.searchBar}>
@@ -16,16 +13,7 @@ export default function Search({ placeholderText, value }) {
           color="black"
           style={{ paddingHorizontal: 10 }}
         />
-        {/* Search field */}
-        <TextInput
-          style={styles.input}
-          placeholder={placeholderText}
-          value={value}
-          // onChangeText={setSearchPhrase}
-          onFocus={() => {
-            setClicked(true);
-          }}
-        />
+        <Text>{placeholderText}</Text>
       </View>
     </View>
   );
@@ -43,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#eee",
     borderRadius: 15,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   input: {
     fontSize: 15,

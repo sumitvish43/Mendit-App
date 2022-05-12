@@ -60,20 +60,18 @@ export default function Profile({ navigation, mobile }) {
         .where("phone_no", "==", numberFinal)
         .get()
         .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            setDocid(doc.id);
-            console.log(docid);
-          });
-          
-          if (querySnapshot.docs.length) {
-            db.collection("Handyman")
-              .doc(docid)
-              .update({
-                    location:currCoords,
-                  }).then(function() {
-                    console.log("not a Handyman");
-                  }).catch((error) => {
-                    console.error("Error adding document: ", error);
+                   
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach((doc) =>{
+              console.log("updating info");
+              doc.update({
+                location:currCoords,
+              }).then(function() {
+                console.log("not a Handyman");
+              }).catch((error) => {
+                console.error("Error adding document: ", error);
+            })
+              
             
           });
 
@@ -191,12 +189,12 @@ export default function Profile({ navigation, mobile }) {
     <View style={styles.container}>
       <View style={styles.userNameMob}>
         <Text style={styles.username}>{userName}</Text>
-        <Text style={styles.mobno}>{mobile}</Text>
+        <Text style={styles.mobno}>{numberFinal}</Text>
       </View>
 
       <FlatList
         data={[
-          { key: "Edit Profile", icon: "edit", clickHandler: editProfile },
+          // { key: "Edit Profile", icon: "edit", clickHandler: editProfile },
           { key: "About Us", icon: "people-alt", clickHandler: aboutUs },
           { key: "Rate Mendit App", icon: "star", clickHandler: myRatings },
           { key: "Reset Location", icon: "location-on", clickHandler: locationSetter },

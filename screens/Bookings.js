@@ -21,14 +21,16 @@ export default function Booking() {
   const [openchats, setopenchats] = useState([]);
   const [loading, setLoading] = useState(true);
   const yourNumber = global.phoneNum;
-
+  const removeRequest =(docid)=>{
+    db.collection("Task").doc(docid).update({userDeleted: true}).then(()=>console.log("Removed the booking!!")).catch((error)=>{console.error("Error updating the document: ", error)});
+  }
   useEffect(() => {
     const task =
       db.collection('Task')
         .onSnapshot(querySnapshot => {
           const task = [];
           querySnapshot.forEach(documentSnapshot => {
-            if (documentSnapshot.data().customerNumber == yourNumber) {
+            if (documentSnapshot.data().customerNumber == yourNumber && !documentSnapshot.data().userDeleted) {
               task.push({
                 service: documentSnapshot.data().type,
                 user: documentSnapshot.data().customerName,
@@ -171,18 +173,22 @@ export default function Booking() {
                 <Text style={{ fontFamily: 'inter-regular', fontSize: 18, marginBottom: 10, fontWeight: 'bold' }}>Handyman: {item.handyName}</Text>
                 <Text style={{ fontFamily: 'inter-regular', fontSize: 16, fontWeight: 'bold' }}>Service Type: {item.service}</Text>
                 <Text style={{ fontFamily: 'inter-regular', fontSize: 16, fontWeight: 'bold' }}>Requested on: {item.timeStamp.substring(0, 16)}</Text>
-                <Button
-                  title="Opens Chat"
-                  onPress={() => redirectChat(item.handyName, item.handyNumber, item.user)}
-                />
-              </View>
-
-              {item.accepted ? <View style={styles.contact}><Text style={{ fontFamily: 'inter-bold', color: "green" }}>Accepted</Text><Text style={{ fontFamily: 'inter-bold', color: "blue", fontSize: 15, marginVertical: 10 }}>Handyman's number: {item.handyNumber}</Text></View> : item.rejected ? <View style={styles.bottom}>
-                <Text style={{ color: "#f00", fontFamily: "inter-bold" }}>Rejected</Text>
+                
+                {item.accepted ? <View style={styles.contact}><Text style={{ fontFamily: 'inter-bold', color: "green", marginTop: 10 }}>Accepted</Text>
+                <Text style={{ fontFamily: 'inter-bold', color: "green", fontSize: 15, marginVertical: 10 }}>Handyman's number: {item.handyNumber}</Text>
+                <View style={{flexDirection: "row", marginTop: 10}}>
+                  <Text style={[styles.text,{width: "50%"}]} onPress={()=>{removeRequest(item.key);}}>Remove</Text>
+                  <Text style={[styles.text,{backgroundColor: "#007aff", width: "50%"}]} onPress={() => redirectChat(item.handyName, item.handyNumber, item.user)}>CHAT NOW</Text>
+                </View></View> : item.rejected ? <View style={styles.bottom}>
+                <Text style={{ color: "#f00", fontFamily: "inter-bold", marginTop: 10  }}>Rejected</Text>
               </View> : <View style={styles.bottom}>
-                <Text style={{ color: "#e1ad01", fontFamily: "inter-bold" }}>Request Pending...</Text>
+                <Text style={{ color: "#e1ad01", fontFamily: "inter-bold", marginTop: 10, marginBottom:-20 }}>Request Pending...</Text>
               </View>}
 
+                {item.rejected?<Text style={styles.text} onPress={()=>{removeRequest(item.key);}}>Remove</Text>:null}
+              </View>
+
+              
             </View>
           )}
         /> : <View style={styles.nobooking}><Image style={styles.image}
@@ -204,7 +210,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     paddingTop: 20,
-
   },
   taskList: {
     padding: 20,
@@ -247,5 +252,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 600
-  }
+  },
+  text:{
+    marginTop: 7,
+    marginBottom: -17,
+    color: '#Fff', 
+    padding: 6.5, 
+    backgroundColor: '#F47171',
+    // borderBottomLeftRadius: 7,
+    // borderBottomRightRadius: 7,
+    borderRadius: 7,
+    fontFamily:'inter-bold',
+    textAlign: "center",
+    width: "100%",
+    marginHorizontal: 2
+},
 });
