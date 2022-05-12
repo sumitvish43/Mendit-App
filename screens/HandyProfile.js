@@ -56,28 +56,39 @@ export default function Profile({ navigation, mobile }) {
 
     const signup = () => {
       //console.log("inside signup");
-      db.collection("Handyman")
+      db.collection("User")
         .where("phone_no", "==", numberFinal)
         .get()
-        .then((querySnapshot) => {
-                   
-          if (!querySnapshot.empty) {
-            querySnapshot.forEach((doc) =>{
-              console.log("updating info");
-              doc.update({
-                location:currCoords,
-              }).then(function() {
-                console.log("not a Handyman");
-              }).catch((error) => {
-                console.error("Error adding document: ", error);
-            })
+        //.then((querySnapshot) => {
+        .then((doc) => {          
+          // if (!querySnapshot.empty) {
+          //   querySnapshot.forEach((doc) =>{
+          //     console.log("updating info");
+          //     doc.update({
+          //       location:currCoords,
+          //     }).then(function() {
+          //       console.log("not a Handyman");
+          //     }).catch((error) => {
+          //       console.error("Error adding document: ", error);
+          //   })
               
             
-          });
+          // });
 
+          // }
+          console.log("inside doc exists 1")
+          if(doc.exists){
+            console.log("inside doc exists")
+            doc.update({
+                    location:currCoords,
+                  }).then(function() {
+                    console.log("not a User");
+                  }).catch((error) => {
+                    console.error("Error adding document: ", error);
+                })
           }
           else {
-            db.collection("User")
+            db.collection("Handyman")
               .where("phone_no", "==", numberFinal)
               .get()
               .then((querySnapshot) => {
