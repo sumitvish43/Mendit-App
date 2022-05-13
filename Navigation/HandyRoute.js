@@ -18,7 +18,7 @@ export default function HandyRoute({navigation}) {
       key: "handyhome",
       title: "New",
       icon: "moon-new",
-      color: "#007",
+      color: "#007AFF",
       
     },
     {

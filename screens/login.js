@@ -32,10 +32,10 @@ export default function Login({ navigation }) {
   const firebaseConfig = app ? app.options : undefined;
   const [current, setCurrent] = useState("");
   var docid = "";
-  const pressHandler = () => {
-    setModalVisible(true);
-    navigation.navigate("SignUpAs");
-  };
+  // const pressHandler = () => {
+  //   setModalVisible(true);
+  //   navigation.navigate("SignUpAs");
+  // };
 
   const gotoVerify = async () => {
     const numberFinal = "+91" + number;
@@ -216,7 +216,7 @@ export default function Login({ navigation }) {
 
                 <TouchableOpacity
                   style={modalStyles.button2}
-                  onClick={pressHandler}
+                  onClick={()=> navigation.navigate('SignUpAs')}
                 >
                   <Text style={modalStyles.button2Text}>Sign Up</Text>
                 </TouchableOpacity>
