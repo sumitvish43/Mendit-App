@@ -55,7 +55,7 @@ export default function Booking() {
     //const redirectChat = () => {
 
     //alert("chat" + hname + hno + uname2);
-    alert("chat", hno, hname, yourNumber, uname2);
+    //alert("chat", hno, hname, yourNumber, uname2);
     console.log(hno, hname, uname2);
     //hname, hno, yourNumber
     /**

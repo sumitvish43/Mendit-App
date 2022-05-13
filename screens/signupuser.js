@@ -268,11 +268,11 @@ export default function SignUpUser({ navigation }) {
                 />
                 <Text>I Consent to Provide Location</Text>
               </View>
-              <Button
+              {/* <Button
                 title="Upload Avatar Image"
                 style={styles.button1}
                 onPress={onImageUpload}
-              />
+              /> */}
               <View style={styles.buttons}>
                 {isDisabled && <TouchableOpacity style={styles.button3} onPress={signup}>
                   <Text style={styles.buttonText}>Sign Up</Text>
