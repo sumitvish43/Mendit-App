@@ -36,9 +36,9 @@ export default function Profile({ navigation, mobile }) {
     console.log(user1);
   };
   const settings = () => {
-    
+
     alert("Settings");
-    
+
 
   }
   const logOut = () => {
@@ -64,18 +64,18 @@ export default function Profile({ navigation, mobile }) {
             setDocid(doc.id);
             console.log(docid);
           });
-          
+
           if (querySnapshot.docs.length) {
             db.collection("User")
               .doc(docid)
               .update({
-                    location:currCoords,
-                  }).then(function() {
-                    console.log("not a user");
-                  }).catch((error) => {
-                    console.error("Error adding document: ", error);
-            
-          });
+                location: currCoords,
+              }).then(function () {
+                console.log("not a user");
+              }).catch((error) => {
+                console.error("Error adding document: ", error);
+
+              });
 
           }
           else {
@@ -91,14 +91,14 @@ export default function Profile({ navigation, mobile }) {
                   db.collection("Handyman")
                     .doc(docid)
                     .update({
-                          location:currCoords,
-                        }).then(function() {
-                          console.log("not a user, nor a handyman");
-                        }).catch((error) => {
-                          console.error("Error adding document: ", error);
-                  
-                });
-      
+                      location: currCoords,
+                    }).then(function () {
+                      console.log("not a user, nor a handyman");
+                    }).catch((error) => {
+                      console.error("Error adding document: ", error);
+
+                    });
+
                 }
                 else {
                   alert("error in updating location");
@@ -106,7 +106,7 @@ export default function Profile({ navigation, mobile }) {
                 }
               });
           }
-          
+
         })
       // db.collection("User")
       //   .doc("wS0836I7xEjgZjZDeyc2")
@@ -118,8 +118,8 @@ export default function Profile({ navigation, mobile }) {
       //         console.error("Error adding document: ", error);
       //     });
 
-          
-      }
+
+    }
 
 
     const GetCurrentLocation = async () => {
@@ -142,12 +142,12 @@ export default function Profile({ navigation, mobile }) {
 
       if (coords) {
         //const { latitude, longitude } = coords;
-        const msg = "Saving Location"
-        if (Platform.OS === 'android') {
-          ToastAndroid.show(msg, ToastAndroid.SHORT)
-        } else {
-          AlertIOS.alert(msg);
-        }
+        // const msg = "Saving Location"
+        // if (Platform.OS === 'android') {
+        //   ToastAndroid.show(msg, ToastAndroid.SHORT)
+        // } else {
+        //   AlertIOS.alert(msg);
+        // }
         setCurrCoords(temp)
       }
     };
@@ -171,7 +171,7 @@ export default function Profile({ navigation, mobile }) {
     GetCurrentLocation();
     signup();
     setIsDisabled(false);
-    
+
     console.log("after signup");
   };
 
@@ -183,6 +183,13 @@ export default function Profile({ navigation, mobile }) {
           setuserName(doc.data().username);
         })
           .catch((error) => {
+            Alert.alert("couldnt save location");
+            const msg1 = "Error in Saving Location";
+            if (Platform.OS === 'android') {
+              ToastAndroid.show(msg1, ToastAndroid.SHORT)
+            } else {
+              AlertIOS.alert(msg1);
+            }
             console.log("Error getting data:", error);
           });
       });

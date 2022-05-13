@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "mendit",
+    "name": "Mendit",
     "slug": "mendit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/Mendit-Logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

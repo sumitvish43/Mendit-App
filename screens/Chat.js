@@ -63,12 +63,16 @@ export default function Chat({ navigation }) {
                                 {(item.userID == yourNumber) && <Text style={{ fontFamily: 'inter-regular', fontSize: 18, marginBottom: 10 }}>{item.handyName}</Text>}
                                 {(item.handyID == yourNumber) && <Text style={{ fontFamily: 'inter-regular', fontSize: 18, marginBottom: 10 }}>{item.uName}</Text>}
                                 {console.log("chat.js", item.key, item.userID, item.handyID)}
+
+                                <View style={{flexDirection: "row", marginTop: 10}}>
+                            <Text style={[styles.text,{backgroundColor: "#007aff", width: "50%"}]} onPress={() => navigation.navigate('NestedChat', {docId: item.key,userID: item.userID, handyID: item.handyID })}>CHAT NOW</Text>
+                            </View>
                             </View>
                             
-                            <Button
+                            {/* <Button
                                 title="Chat Now"
                                 onPress={() => navigation.navigate('NestedChat', {docId: item.key,userID: item.userID, handyID: item.handyID })}
-                            />
+                            /> */}
                             {console.log("Button",item.key)}
                         </View>
                         //{</TouchableOpacity>}
@@ -135,5 +139,19 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         height: 600
-    }
+    },
+    text:{
+        marginTop: 7,
+        marginBottom: -17,
+        color: '#Fff', 
+        padding: 6.5, 
+        backgroundColor: '#F47171',
+        // borderBottomLeftRadius: 7,
+        // borderBottomRightRadius: 7,
+        borderRadius: 7,
+        fontFamily:'inter-bold',
+        textAlign: "center",
+        width: "100%",
+        marginHorizontal: 2
+    },
 });
