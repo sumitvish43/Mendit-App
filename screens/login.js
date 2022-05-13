@@ -216,7 +216,7 @@ export default function Login({ navigation }) {
 
                 <TouchableOpacity
                   style={modalStyles.button2}
-                  onClick={pressHandler}
+                  onPress={pressHandler}
                 >
                   <Text style={modalStyles.button2Text}>Sign Up</Text>
                 </TouchableOpacity>
