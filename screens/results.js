@@ -92,6 +92,7 @@ export default function Results({navigation, route}) {
     db.collection('Handyman')
     .onSnapshot(querySnapshot=>{
       const handyman = [];
+      //console.log(handyman);
       querySnapshot.forEach(documentSnapshot => {
         if(documentSnapshot.data().services.includes(serviceType)){
           handyman.push({
@@ -122,7 +123,7 @@ export default function Results({navigation, route}) {
     else{
       return (
       <View style={styles.container}>
-        <View style={styles.header}><Text style={{fontFamily:"inter-bold", fontSize:18, padding: 10}}>SEARCH RESULTS</Text></View>
+        <View style={styles.header}><Text style={{fontFamily:"inter-bold", fontSize:18, padding: 10}}>SEARCH RESUL-TS</Text></View>
         <FlatList
         // data = {handyman}
         data={handyman.sort((a, b) =>a.dist - b.dist)}
@@ -140,7 +141,7 @@ export default function Results({navigation, route}) {
               </View><Text style={{fontFamily:'inter-bold'}}>{serviceType}</Text>
               <View style={styles.three}>
                   <TouchableOpacity >
-                      <Text style={styles.text} onPress={()=>{createTask(item.name, item.handyNumber, item.key,item.service); navigation.navigate("SentRequest",{navigation: navigation})}}>Book</Text>
+                      <Text style={styles.text} onPress={()=>{createTask(item.name, item.handyNumber, item.key,item.service); navigation.navigate("SentRequest",{navigation: navigation})}}>Books </Text>
                         {/* <Text style={styles.text}>{Math.trunc(Number(item.dist))}</Text> */}
                         {/* <Text style={styles.text}>2</Text> */}
 
