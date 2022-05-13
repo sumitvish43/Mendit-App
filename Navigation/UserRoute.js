@@ -20,7 +20,7 @@ export default function UserRoute({navigation, route}) {
       key: "home",
       title: "Home",
       icon: "home",
-      color: "#000",
+      color: "#007aff",
     },
     {
       key: "booking",
@@ -32,13 +32,13 @@ export default function UserRoute({navigation, route}) {
       key: "chat",
       title: "Chat",
       icon: "chat",
-      color: "#000",
+      color: "#007aff",
     },
     {
       key: "profile",
       title: "Profile",
       icon: "account-circle",
-      color: "#000",
+      color: "#007aff",
     },
   ]);
 
