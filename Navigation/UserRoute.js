@@ -26,7 +26,7 @@ export default function UserRoute({navigation, route}) {
       key: "booking",
       title: "My Bookings",
       icon: "calendar-text",
-      color: "#007aff",
+      color: "#000",
     },
     {
       key: "chat",

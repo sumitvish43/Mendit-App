@@ -18,20 +18,20 @@ export default function HandyRoute({navigation}) {
       key: "handyhome",
       title: "New",
       icon: "moon-new",
-      color: "#007",
+      color: "#000",
       
     },
     {
       key: "chat",
       title: "Chat",
       icon: "chat",
-      color: "#007AFF",
+      color: "#000",
     },
     {
       key: "handyprofile",
       title: "Profile",
       icon: "account-hard-hat",
-      color: "#007",
+      color: "#000",
     },
   ]);
 
